@@ -6,6 +6,9 @@ import store from './store'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import 'amfe-flexible'
+
+import qs from 'qs'
+Vue.prototype.$qs = qs
 Vue.use(Vant)
 
 Vue.config.productionTip = false

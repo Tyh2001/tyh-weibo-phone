@@ -1,27 +1,43 @@
 <template>
-  <div>
-    <h1>这是首页</h1>
-    <van-button type="primary">主要按钮</van-button>
-    <van-button type="info">信息按钮</van-button>
-    <van-button type="default">默认按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
+  <div id="honeIndex">
+    <van-nav-bar
+      title="标题"
+      left-text="返回"
+      right-text="按钮"
+      left-arrow
+      @click-left="onClickLeft"
+      @click-right="onClickRight"
+    />
+
+    <van-tabs v-model="active">
+      <van-tab title="全部">全部</van-tab>
+      <van-tab title="关注">关注</van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: 'honeIndex',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      active: 2
+    }
   },
   computed: {},
   watch: {},
   created () { },
   mounted () { },
-  methods: {}
+  methods: {
+    onClickLeft () {
+      this.$toast('返回')
+    },
+    onClickRight () {
+      this.$toast('按钮')
+    }
+  }
 }
 </script>
 
