@@ -6,6 +6,7 @@
       :show-error-message="false"
       :show-error="false"
       @submit="onSubmitRegister"
+      @failed="onFailed"
     >
       <!-- 账号 -->
       <van-field
@@ -13,7 +14,7 @@
         name="username"
         label="账号"
         placeholder="请输入账号"
-        :rules="[{ required: true, message: '请填写账号' }]"
+        :rules="registerRule.userNameRule"
       />
 
       <!-- 密码 -->
@@ -23,17 +24,17 @@
         name="password"
         label="密码"
         placeholder="请输入密码"
-        :rules="[{ required: true, message: '请填写密码' }]"
+        :rules="registerRule.passWordRule"
       />
 
       <!-- 再次输入密码 -->
       <van-field
         v-model="user.password2"
         type="password"
-        name="mail"
+        name="password2"
         label="确认密码"
         placeholder="请再次输入密码"
-        :rules="[{ required: true, message: '请再次输入密码' }]"
+        :rules="registerRule.passWordRule2"
       />
 
       <!-- 邮箱 -->
@@ -42,7 +43,7 @@
         name="mail"
         label="邮箱"
         placeholder="请输入邮箱"
-        :rules="[{ required: true, message: '请填写邮箱' }]"
+        :rules="registerRule.mailRule"
       />
 
       <!-- 验证码 -->
@@ -52,7 +53,7 @@
           name="captcha"
           label="验证码"
           placeholder="请输入验证码"
-          :rules="[{ required: true, message: '请填写验证码' }]"
+          :rules="registerRule.captchaRule"
         />
         <img
           class="captcha_img"
@@ -103,6 +104,33 @@ export default {
         password2: '',
         mail: '', // 邮箱
         captcha: '' // 验证码
+      },
+      // 表单验证方法
+      registerRule: {
+        // 账号
+        userNameRule: [
+          { required: true, message: '请输入账号' },
+          { pattern: /^(?![^0-9a-zA-Z]+$)(?!\D+$).{6,12}$/, message: '账号长度需在6到12个字符' }
+        ],
+        // 第一遍密码
+        passWordRule: [
+          { required: true, message: '请输入密码' },
+          { pattern: /^(?![^0-9a-zA-Z]+$).{6,12}$/, message: '密码长度需在8到20个字符' }
+        ],
+        // 第二遍密码
+        passWordRule2: [
+          { required: true, message: '请输入再次输入密码' }
+        ],
+        // 邮箱
+        mailRule: [
+          { required: true, message: '请输入邮箱' },
+          { pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/, message: '邮箱格式不正确' }
+        ],
+        // 验证码
+        captchaRule: [
+          { required: true, message: '请输入验证码' },
+          { pattern: /^(?![^0-9]+$).{2}$/, message: '请输入正确验证码' }
+        ]
       }
     }
   },
@@ -121,13 +149,36 @@ export default {
   methods: {
     // 注册账号
     async onSubmitRegister (values) {
-      values.captchaCode = this.captchaCode
+      this.registerDisabled = true
+      values.captchaCode = this.captchaCode // 传递随机数
       const { data } = await onRegister(this.$qs.stringify(values))
-      console.log(data)
+
+      // 根据后端返回数据判断用户登录
+      if (data.code !== 201) {
+        this.$toast(data.msg)
+        // 如果验证码错误则重新加载一个新的验证码图片
+        if (data.msg === '验证码错误') {
+          this.captchaCode = randomNum(15, 1)
+        }
+        this.registerDisabled = false
+        return
+      }
+
+      this.registerDisabled = false
+      this.$toast('注册成功')
+      this.$router.push('/user/login')
     },
     // 点击切换验证码图片
     changeCaptchaImg () {
       this.captchaCode = randomNum(15, 1)
+    },
+    // 提交表单且验证不通过后触发
+    onFailed (errorInfo) {
+      if (errorInfo.values.password !== errorInfo.values.password2) {
+        this.$toast('两次密码输入不一致')
+        return
+      }
+      this.$toast(errorInfo.errors[0].message)
     }
   }
 }

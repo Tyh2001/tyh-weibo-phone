@@ -6,6 +6,7 @@
       :show-error-message="false"
       :show-error="false"
       @submit="onSubmitLogin"
+      @failed="onFailed"
     >
       <!-- 用户名 -->
       <van-field
@@ -87,13 +88,17 @@ export default {
       // 登录成功的操作
       if (data.code === 201) {
         this.$toast(data.msg)
-        // this.$store.commit('changeUser', data.data)
+        this.$store.commit('changeUser', data.data)
         this.buttonDisabled = false
         this.$router.push('/')
         return
       }
       this.buttonDisabled = false
       this.$toast(data.msg)
+    },
+    // 提交表单且验证不通过后触发
+    onFailed (errorInfo) {
+      this.$toast(errorInfo.errors[0].message)
     }
   }
 }
