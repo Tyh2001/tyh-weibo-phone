@@ -79,6 +79,8 @@
 
     <!-- 返回登录 -->
     <div class="changeLogin">
+      <router-link to="/"> 回到首页 </router-link>
+
       <router-link to="/user/login">
         返回登录
         <van-icon name="arrow" />
@@ -155,7 +157,7 @@ export default {
 
       // 根据后端返回数据判断用户登录
       if (data.code !== 201) {
-        this.$notify(data.msg)
+        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
         // 如果验证码错误则重新加载一个新的验证码图片
         if (data.msg === '验证码错误') {
           this.captchaCode = randomNum(15, 1)
@@ -165,7 +167,7 @@ export default {
       }
 
       this.registerDisabled = false
-      this.$notify({ type: 'success', message: '注册成功' })
+      this.$notify({ type: 'success', message: '注册成功', duration: 1300 })
       this.$router.push('/user/login')
     },
     // 点击切换验证码图片
@@ -175,10 +177,10 @@ export default {
     // 提交表单且验证不通过后触发
     onFailed (errorInfo) {
       if (errorInfo.values.password !== errorInfo.values.password2) {
-        this.$notify('两次密码输入不一致')
+        this.$notify({ type: 'danger', message: '两次密码输入不一致', duration: 1300 })
         return
       }
-      this.$notify(errorInfo.errors[0].message)
+      this.$notify({ type: 'danger', message: errorInfo.errors[0].message, duration: 1300 })
     }
   }
 }
@@ -187,6 +189,7 @@ export default {
 <style lang='less' scoped>
 #registerIndex {
   .loginTitle {
+    font-size: 25px;
     font-weight: 500;
     color: #333333;
     margin-bottom: 20px;
@@ -203,13 +206,16 @@ export default {
     }
   }
   .changeLogin {
-    margin-top: 26px;
-    width: 80px;
-    margin: auto;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    padding: 13px;
+    box-sizing: border-box;
+    justify-content: space-between;
     a {
       text-decoration: none;
       color: #333;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
     }

@@ -1,20 +1,60 @@
 <template>
-  <div id="settingIndex"></div>
+  <div id="settingIndex">
+    <van-nav-bar
+      title="账号信息设置"
+      left-text="返回"
+      right-text="按钮"
+      left-arrow
+      @click-left="onClickLeft"
+      @click-right="onClickRight"
+    />
+
+    <van-cell-group>
+      <van-cell title="头像" is-link value="1" />
+      <van-cell title="昵称" is-link :value="userForm.nickname" />
+      <van-cell title="个性签名" is-link :value="userForm.autograph" />
+      <van-cell title="性别" is-link :value="userForm.gender" />
+      <van-cell title="感情状况" is-link :value="userForm.feeling" />
+      <van-cell title="职业" is-link :value="userForm.work" />
+      <van-cell title="生日" is-link :value="userForm.birthday" />
+      <van-cell title="邮箱" is-link :value="userForm.mail" />
+    </van-cell-group>
+  </div>
 </template>
 
 <script>
+import { getUserInfo } from '@/api/user'
+import { mapState } from 'vuex'
 export default {
   name: 'settingIndex',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      userForm: {} // 个人信息
+    }
   },
-  computed: {},
+  computed: {
+    ...mapState(['userInfo'])
+  },
   watch: {},
-  created () { },
+  created () {
+    this.loadgetUserInfo() // 获取用户资料
+  },
   mounted () { },
-  methods: {}
+  methods: {
+    // 获取用户信息
+    async loadgetUserInfo () {
+      const { data } = await getUserInfo(this.userInfo.id)
+      this.userForm = data.data
+    },
+    onClickLeft () {
+      this.$router.go(-1)
+    },
+    onClickRight () {
+      this.$toast('按钮')
+    }
+  }
 }
 </script>
 

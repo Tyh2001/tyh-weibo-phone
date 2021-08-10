@@ -39,6 +39,8 @@
     </van-form>
 
     <div class="changeRegister">
+      <router-link to="/"> 回到首页 </router-link>
+
       <router-link to="/user/register">
         立即注册
         <van-icon name="arrow" />
@@ -76,7 +78,7 @@ export default {
         values.username.length < 6 ||
         values.password.length < 8
       ) {
-        this.$notify('请输入正确账号和密码')
+        this.$notify({ type: 'danger', message: '请输入正确账号和密码', duration: 1300 })
         return
       }
 
@@ -87,18 +89,18 @@ export default {
 
       // 登录成功的操作
       if (data.code === 201) {
-        this.$notify({ type: 'success', message: data.msg })
+        this.$notify({ type: 'success', message: data.msg, duration: 1300 })
         this.$store.commit('changeUser', data.data)
         this.buttonDisabled = false
         this.$router.push('/')
         return
       }
       this.buttonDisabled = false
-      this.$notify(data.msg)
+      this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
     },
     // 提交表单且验证不通过后触发
     onFailed (errorInfo) {
-      this.$notify(errorInfo.errors[0].message)
+      this.$notify({ type: 'danger', message: errorInfo.errors[0].message, duration: 1300 })
     }
   }
 }
@@ -107,6 +109,7 @@ export default {
 <style lang='less' scoped>
 #loginIndex {
   .loginTitle {
+    font-size: 25px;
     font-weight: 500;
     color: #333333;
     margin-bottom: 20px;
@@ -114,13 +117,16 @@ export default {
     margin-left: 20px;
   }
   .changeRegister {
-    margin-top: 26px;
-    width: 80px;
-    margin: auto;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    padding: 13px;
+    box-sizing: border-box;
+    justify-content: space-between;
     a {
       text-decoration: none;
       color: #333;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
     }

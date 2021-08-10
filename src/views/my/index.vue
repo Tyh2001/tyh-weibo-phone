@@ -4,6 +4,7 @@
       <van-icon name="wap-nav" @click="popupShow = true" />
     </div>
 
+    <!-- 用户资料 -->
     <div id="userInfo">
       <div class="Info_list">
         <img class="user_photo" :src="userForm.avatar" alt="用户头像" />
@@ -43,7 +44,11 @@
     <van-popup v-model="popupShow" position="right">
       <van-cell-group>
         <van-cell to="/setting" title="设置" is-link />
+        <van-cell to="/changepass" title="修改密码" is-link />
       </van-cell-group>
+      <van-button type="default" size="normal" @click="outLogin"
+        >退出登录</van-button
+      >
     </van-popup>
   </div>
 </template>
@@ -74,7 +79,19 @@ export default {
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
       this.userForm = data.data
-      console.log(data)
+    },
+    // 退出登录
+    outLogin () {
+      this.$dialog.confirm({
+        title: '确定退出当前账号吗？',
+        message: '退出账号'
+      })
+        .then(() => {
+          this.$store.commit('outLogin')
+          this.$notify({ type: 'success', message: '已成功退出账号', duration: 1300 })
+          this.$router.push('/')
+        })
+        .catch(() => { })
     }
   }
 }
@@ -148,6 +165,11 @@ export default {
     height: 100%;
     .van-cell:active {
       background: none;
+    }
+    .van-button {
+      width: 90%;
+      position: absolute;
+      bottom: 30px;
     }
   }
 }

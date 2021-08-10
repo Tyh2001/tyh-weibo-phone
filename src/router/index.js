@@ -46,6 +46,13 @@ const routes = [
     name: 'setting',
     component: () => import('@/views/setting'),
     meta: { requiresAuth: true }
+  },
+  // 修改密码
+  {
+    path: '/changepass',
+    name: 'changepass',
+    component: () => import('@/views/changepass'),
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -69,7 +76,7 @@ router.beforeEach((to, from, next) => {
       return next()
     }
     // 否则消息提示 并跳转登录页面
-    Notify('请登录后再试')
+    Notify({ type: 'danger', message: '请登录后再试', duration: 1300 })
     return next('/user/login')
   }
   // 不需要登录的直接通过
