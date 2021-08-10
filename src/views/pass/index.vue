@@ -1,5 +1,5 @@
 <template>
-  <div id="changepassIndex">
+  <div id="passIndex">
     <van-nav-bar
       title="修改密码"
       left-text="返回"
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'changepassIndex',
+  name: 'passIndex',
   components: {},
   props: {},
   data () {

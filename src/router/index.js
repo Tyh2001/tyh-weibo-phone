@@ -49,9 +49,9 @@ const routes = [
   },
   // 修改密码
   {
-    path: '/changepass',
-    name: 'changepass',
-    component: () => import('@/views/changepass'),
+    path: '/pass',
+    name: 'pass',
+    component: () => import('@/views/pass'),
     meta: { requiresAuth: true }
   }
 ]

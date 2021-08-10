@@ -1,7 +1,7 @@
 <template>
   <div id="honeIndex">
     <van-nav-bar
-      title="标题"
+      title="首页"
       left-text="返回"
       right-text="按钮"
       left-arrow
