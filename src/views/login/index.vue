@@ -76,7 +76,7 @@ export default {
         values.username.length < 6 ||
         values.password.length < 8
       ) {
-        this.$toast('请输入正确账号和密码')
+        this.$notify('请输入正确账号和密码')
         return
       }
 
@@ -87,18 +87,18 @@ export default {
 
       // 登录成功的操作
       if (data.code === 201) {
-        this.$toast(data.msg)
+        this.$notify({ type: 'success', message: data.msg })
         this.$store.commit('changeUser', data.data)
         this.buttonDisabled = false
         this.$router.push('/')
         return
       }
       this.buttonDisabled = false
-      this.$toast(data.msg)
+      this.$notify(data.msg)
     },
     // 提交表单且验证不通过后触发
     onFailed (errorInfo) {
-      this.$toast(errorInfo.errors[0].message)
+      this.$notify(errorInfo.errors[0].message)
     }
   }
 }

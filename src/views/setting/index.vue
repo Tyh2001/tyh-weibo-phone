@@ -1,5 +1,5 @@
 <template>
-  <div id="settingIndex">设置页面</div>
+  <div id="settingIndex"></div>
 </template>
 
 <script>
