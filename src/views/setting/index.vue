@@ -133,6 +133,7 @@
         autosize
         type="textarea"
         placeholder="请输入昵称"
+        :rules="[{ required: true, message: '请填写用户名' }]"
       />
     </van-popup>
 
@@ -301,7 +302,7 @@ export default {
     },
     // 取消上传头像
     CanceluploadingAvatar () {
-      this.$toast('取消上传')
+      this.$notify({ type: 'danger', message: '已取消上传', duration: 1300 })
       this.upPopupUserPhoto = false
     },
     // 确认上传头像
@@ -328,8 +329,15 @@ export default {
     },
     // 更改昵称 当点击确定按钮的时候
     async upDataNickname () {
+      const nickName = this.originalUserInfo.nickname
+
+      // 如果格式不符合的时候
+      if (nickName === '' || nickName < 3 || nickName > 15) {
+        this.$notify({ type: 'danger', message: '昵称长度在3到15个字符', duration: 1300 })
+        return
+      }
       // 替换数据提交表单内容
-      this.userForm.nickname = this.originalUserInfo.nickname
+      this.userForm.nickname = nickName
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
@@ -355,7 +363,15 @@ export default {
     },
     // 更改邮箱 当点击确定按钮的时候
     async upDataMail () {
-      this.userForm.mail = this.originalUserInfo.mail
+      const mail = this.originalUserInfo.mail // 获取到输入的邮箱
+      const mailPattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ // 邮箱验证规则
+
+      // 如果正则不通过则返回
+      if (!mailPattern.test(mail)) {
+        this.$notify({ type: 'danger', message: '邮箱格式不正确', duration: 1300 })
+        return
+      }
+      this.userForm.mail = mail
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
