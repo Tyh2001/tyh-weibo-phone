@@ -117,7 +117,6 @@ export default {
     // 获取所有博客的内容
     async loadgetAllBlogList () {
       const { data } = await getAllBlogList()
-      console.log(data)
       this.blogList = data.data
     },
     // 当上传文件被改变时
@@ -126,7 +125,11 @@ export default {
 
       // 将每一项添加到全局数组中
       for (let i = 0; i < filesArr.length; i++) {
-        this.upLoadImagesFileArray.push(filesArr[i])
+        if (this.upLoadImagesFileArray.length < 9) {
+          this.upLoadImagesFileArray.push(filesArr[i])
+        } else {
+          break
+        }
       }
 
       // 获取到选择文件的长度（数量）
