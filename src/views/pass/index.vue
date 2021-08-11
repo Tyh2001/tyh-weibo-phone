@@ -1,13 +1,6 @@
 <template>
   <div id="passIndex">
-    <van-nav-bar
-      title="修改密码"
-      left-text="返回"
-      right-text="按钮"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title="修改密码" left-arrow @click-left="$router.go(-1)" />
   </div>
 </template>
 
@@ -23,14 +16,7 @@ export default {
   watch: {},
   created () { },
   mounted () { },
-  methods: {
-    onClickLeft () {
-      this.$router.go(-1)
-    },
-    onClickRight () {
-      this.$toast('按钮')
-    }
-  }
+  methods: {}
 }
 </script>
 

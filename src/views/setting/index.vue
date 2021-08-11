@@ -1,13 +1,6 @@
 <template>
   <div id="settingIndex">
-    <van-nav-bar
-      title="账号信息设置"
-      left-text="返回"
-      right-text="按钮"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title="账号信息设置" left-arrow @click-left="$router.go(-1)" />
 
     <van-cell-group>
       <van-cell title="头像" is-link value="1" />
@@ -47,12 +40,6 @@ export default {
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
       this.userForm = data.data
-    },
-    onClickLeft () {
-      this.$router.go(-1)
-    },
-    onClickRight () {
-      this.$toast('按钮')
     }
   }
 }

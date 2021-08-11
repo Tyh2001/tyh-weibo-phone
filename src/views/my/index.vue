@@ -7,7 +7,7 @@
     <!-- 用户资料 -->
     <div id="userInfo">
       <div class="Info_list">
-        <img class="user_photo" :src="userForm.avatar" alt="用户头像" />
+        <img class="user_photo" :src="userForm.avatar" alt="" />
 
         <!-- 获赞粉丝框 -->
         <van-grid>
@@ -44,7 +44,7 @@
     <van-popup v-model="popupShow" position="right">
       <van-cell-group>
         <van-cell to="/setting" title="设置" is-link />
-        <van-cell to="/changepass" title="修改密码" is-link />
+        <van-cell to="/pass" title="修改密码" is-link />
       </van-cell-group>
       <van-button type="default" size="normal" @click="outLogin"
         >退出登录</van-button

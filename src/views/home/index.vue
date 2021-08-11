@@ -1,45 +1,82 @@
 <template>
   <div id="honeIndex">
-    <van-nav-bar
-      title="首页"
-      left-text="返回"
-      right-text="按钮"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <div id="Navigation">
+      <van-icon name="chat-o" size="22" />
+      <van-tabs v-model="active">
+        <!-- 全部 -->
+        <van-tab title="全部">
+          <BlogList
+            v-for="(blogItem, index) in blogList"
+            :key="index"
+            :blogItem="blogItem"
+          />
+        </van-tab>
 
-    <van-tabs v-model="active">
-      <van-tab title="全部">全部</van-tab>
-      <van-tab title="关注">关注</van-tab>
-    </van-tabs>
+        <!-- 关注 -->
+        <van-tab title="关注">后续更新</van-tab>
+      </van-tabs>
+      <van-icon name="add-o" size="22" />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+// 获取所有博客
+import { getAllBlogList } from '@/api/blog'
+import BlogList from '@/components/BlogList'
 export default {
-  name: 'honeIndex',
-  components: {},
+  name: 'homeIndex',
+  components: {
+    BlogList
+  },
   props: {},
   data () {
     return {
-      active: 2
+      active: 2, // 选项卡
+      blogList: [] // 博客内容
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['userInfo'])
+  },
   watch: {},
-  created () { },
+  created () {
+    this.loadgetAllBlogList() // 获取所有博客内容
+  },
   mounted () { },
   methods: {
-    onClickLeft () {
-      this.$toast('返回')
-    },
-    onClickRight () {
-      this.$toast('按钮')
+    // 获取所有博客的内容
+    async loadgetAllBlogList () {
+      const { data } = await getAllBlogList()
+      console.log(data)
+      this.blogList = data.data
     }
   }
 }
 </script>
 
 <style lang='less' scoped>
+#honeIndex {
+  #Navigation {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .van-tabs {
+      width: 200px;
+      /deep/ .van-tabs__nav {
+        width: 200px;
+      }
+      .van-tab__pane {
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: 50px;
+        top: 43px;
+        background: #eee;
+        overflow: auto;
+      }
+    }
+  }
+}
 </style>
