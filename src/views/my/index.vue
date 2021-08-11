@@ -42,7 +42,7 @@
 
     <!-- 点击侧边弹出层 -->
     <van-popup v-model="popupShow" position="right">
-      <van-cell-group>
+      <van-cell-group :border="false">
         <van-cell to="/setting" title="设置" is-link />
         <van-cell to="/pass" title="修改密码" is-link />
       </van-cell-group>
