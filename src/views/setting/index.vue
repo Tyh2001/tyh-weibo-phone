@@ -450,7 +450,6 @@ export default {
      */
     // 当点击确定的时候
     confirmBirthday (value) {
-      // this.userForm.birthday = value
       this.upPopupUserBirthday = false
     },
     // 点击取消的时候

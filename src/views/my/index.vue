@@ -120,7 +120,6 @@ export default {
     // 获取指定用户的博客内容
     async loadgetUserBlogList () {
       const { data } = await getUserBlogList(this.userInfo.id)
-      console.log(data)
       this.userBlogList = data.data
     }
   }

@@ -85,7 +85,6 @@ export default {
       this.buttonDisabled = true // 禁用按钮
 
       const { data } = await onUserLogin(this.$qs.stringify(values))
-      console.log(data)
 
       // 登录成功的操作
       if (data.code === 201) {
