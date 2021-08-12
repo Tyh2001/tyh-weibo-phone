@@ -23,6 +23,13 @@ const routes = [
         name: 'my',
         component: () => import('@/views/my'),
         meta: { requiresAuth: true }
+      },
+      // 发布
+      {
+        path: '/release',
+        name: 'release',
+        component: () => import('@/views/release'),
+        meta: { requiresAuth: true }
       }
     ]
   },

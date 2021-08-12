@@ -21,11 +21,26 @@ export const onReleaseBlog = (data, params) => {
 
 /**
  * 获取所有的博客内容
- * @returns
+ * @returns 所有的博客内容
  */
 export const getAllBlogList = () => {
   return require({
     method: 'GET',
     url: 'index/Blog/getAllBlogList'
+  })
+}
+
+/**
+ * 获取指定用户的博客内容
+ * @param { string } userId 用户 id
+ * @returns 指定用户发布的博客内容
+ */
+export const getUserBlogList = userId => {
+  return require({
+    method: 'GET',
+    url: 'index/Blog/getUserBlogList',
+    params: {
+      userId: userId
+    }
   })
 }

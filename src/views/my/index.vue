@@ -7,28 +7,32 @@
     <!-- 用户资料 -->
     <div id="userInfo">
       <div class="Info_list">
-        <img class="user_photo" :src="userForm.avatar" alt="" />
+        <img
+          class="user_photo"
+          :src="userForm.avatar"
+          @click="$router.push('/setting')"
+        />
 
         <!-- 获赞粉丝框 -->
         <van-grid>
           <van-grid-item>
             <template #default>
               <p class="title">获赞</p>
-              <p class="num">12</p>
+              <p class="num">0</p>
             </template>
           </van-grid-item>
 
           <van-grid-item>
             <template #default>
               <p class="title">粉丝</p>
-              <p class="num">34</p>
+              <p class="num">0</p>
             </template>
           </van-grid-item>
 
           <van-grid-item>
             <template #default>
               <p class="title">关注</p>
-              <p class="num">63</p>
+              <p class="num">0</p>
             </template>
           </van-grid-item>
         </van-grid>
@@ -38,6 +42,20 @@
         <h5 class="nickname">{{ userForm.nickname }}</h5>
         <p class="autograph">{{ userForm.autograph }}</p>
       </div>
+    </div>
+
+    <!-- 用户发布的内容 -->
+    <div v-if="userBlogList.length">
+      <BlogList
+        v-for="(blogItem, index) in userBlogList"
+        :key="index"
+        :blogItem="blogItem"
+      />
+    </div>
+
+    <div class="userBlogListNoLength" v-else @click="$router.push('/release')">
+      <p>你还没有发布过内容哦</p>
+      <p>点击发布动态</p>
     </div>
 
     <!-- 点击侧边弹出层 -->
@@ -55,13 +73,18 @@
 
 <script>
 import { getUserInfo } from '@/api/user'
+import { getUserBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
+import BlogList from '@/components/BlogList'
 export default {
   name: 'myIndex',
-  components: {},
+  components: {
+    BlogList
+  },
   props: {},
   data () {
     return {
+      userBlogList: [], // 用户发布的内容
       popupShow: false, // 侧边弹出层
       userForm: {} // 个人信息
     }
@@ -72,6 +95,7 @@ export default {
   watch: {},
   created () {
     this.loadgetUserInfo() // 获取用户资料
+    this.loadgetUserBlogList() // 获取指定用户的博客内容
   },
   mounted () { },
   methods: {
@@ -92,6 +116,12 @@ export default {
           this.$router.push('/')
         })
         .catch(() => { })
+    },
+    // 获取指定用户的博客内容
+    async loadgetUserBlogList () {
+      const { data } = await getUserBlogList(this.userInfo.id)
+      console.log(data)
+      this.userBlogList = data.data
     }
   }
 }
@@ -170,6 +200,16 @@ export default {
       width: 90%;
       position: absolute;
       bottom: 30px;
+    }
+  }
+  // 没有发布动态
+  .userBlogListNoLength {
+    margin-top: 170px;
+    p {
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+      line-height: 30px;
     }
   }
 }
