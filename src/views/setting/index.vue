@@ -89,6 +89,15 @@
         :value="userForm.mail"
         @click="upPopupUserMail = true"
       />
+
+      <!-- 城市 -->
+      <van-cell
+        center
+        title="城市"
+        is-link
+        :value="userForm.city"
+        @click="upPopupUserCity = true"
+      />
     </van-cell-group>
 
     <!-- 上传头像的弹窗 -->
@@ -226,6 +235,20 @@
         placeholder="请输入邮箱"
       />
     </van-popup>
+
+    <!-- 更改城市的弹出框 -->
+    <van-popup
+      position="bottom"
+      :columns-placeholder="['请选择', '请选择', '请选择']"
+      v-model="upPopupUserCity"
+    >
+      <van-area
+        title="城市"
+        :area-list="areaList"
+        @confirm="confirmCity"
+        @cancel="cancelCity"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -247,6 +270,20 @@ export default {
        * 切换到其他信息的修改的时候 同样会修改之前不想修改的内容
        * 这里仅限于：昵称、个性签名、邮箱
        */
+      areaList: {
+        province_list: {
+          110000: '北京市',
+          120000: '天津市'
+        },
+        city_list: {
+          110100: '北京市',
+          120100: '天津市'
+        },
+        county_list: {
+          110101: '东城区',
+          110102: '西城区'
+        }
+      },
       originalUserInfo: {
         nickname: '',
         autograph: '',
@@ -266,6 +303,7 @@ export default {
       upPopupUserWork: false, // 更改职业的弹出框
       upPopupUserBirthday: false, // 更改生日的弹出框
       upPopupUserMail: false, // 更改邮箱的弹出框
+      upPopupUserCity: false, // 更改城市的弹出框
       UploadfileImgUrl: '', // 上传文件的图片路径
       userForm: {} // 个人信息
     }
@@ -481,6 +519,19 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate
       return currentdate
+    },
+    /**
+     * 选择城市
+     */
+    // 当点击确定的时候
+    confirmCity (value) {
+      console.log(value)
+      this.$toast('城市选择维护中，稍后再试')
+    },
+    // 当点击取消的时候
+    cancelCity () {
+      this.upPopupUserCity = false
+      this.$toast('取消')
     }
   }
 }
