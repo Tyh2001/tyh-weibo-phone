@@ -195,7 +195,7 @@
     <!-- 更改生日的弹出框 -->
     <van-popup position="bottom" v-model="upPopupUserBirthday">
       <van-datetime-picker
-        v-model="userForm.birthday"
+        v-model="currentDate"
         type="date"
         title="选择生日"
         :min-date="minDate"
@@ -252,9 +252,9 @@ export default {
         autograph: '',
         mail: ''
       },
-      minDate: new Date(2020, 0, 1), // 最小时间
+      minDate: new Date(1980, 0, 1), // 最小时间
       maxDate: new Date(2025, 10, 1), // 最大时间
-      currentDate: new Date(2021, 0, 17),
+      currentDate: new Date(2000, 0, 1), // 用来同步当前的时间
       genderList: ['男', '女', '保密'], // 性别列表
       feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感情状况
       workList: ['计算机/互联网/通信', '生产/工艺/制造', '金融/银行/投资/保险', '商业/服务业/个体经营', '文化/广告/传媒', '娱乐/艺术/表演', '律师/法务', '教育/培训', '公务员/行政/事业单位', '演员/歌手', '自由职业', '模特', '空姐', '学生', '其他'], // 工作列表
@@ -449,13 +449,38 @@ export default {
      * 选择生日
      */
     // 当点击确定的时候
-    confirmBirthday (value) {
+    async confirmBirthday (value) {
+      this.userForm.birthday = this.getNowFormatDate(value)
+
+      const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
+      if (data.code !== 201) {
+        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        return
+      }
+
+      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
       this.upPopupUserBirthday = false
     },
     // 点击取消的时候
     cancelBirthday () {
       this.upPopupUserBirthday = false
       this.$toast('取消')
+    },
+    // 计算时间
+    getNowFormatDate (time) {
+      const date = new Date(time)
+      const seperator1 = '-'
+      const year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate
+      return currentdate
     }
   }
 }
