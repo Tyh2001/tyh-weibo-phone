@@ -51,6 +51,8 @@
         :key="index"
         :blogItem="blogItem"
       />
+
+      <NoMore />
     </div>
 
     <div class="userBlogListNoLength" v-else @click="$router.push('/release')">
@@ -76,10 +78,12 @@ import { getUserInfo } from '@/api/user'
 import { getUserBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 import BlogList from '@/components/BlogList'
+import NoMore from '@/components/NoMore'
 export default {
   name: 'myIndex',
   components: {
-    BlogList
+    BlogList,
+    NoMore
   },
   props: {},
   data () {
@@ -128,6 +132,12 @@ export default {
 
 <style lang='less' scoped>
 #myIndex {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 49px;
+  overflow: auto;
   .banner {
     width: 100%;
     height: 120px;

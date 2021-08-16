@@ -7,7 +7,7 @@ import require from '@/utils/require'
 /**
  * 注册账号
  * @param { object } data 用户注册信息
- * @returns
+ * @returns 提示信息 状态码
  */
 export const onRegister = data => {
   return require({
@@ -20,7 +20,7 @@ export const onRegister = data => {
 /**
  * 登录
  * @param { object } data 用户名和密码的对象
- * @returns
+ * @returns 提示信息 状态码
  */
 export const onUserLogin = data => {
   return require({
@@ -49,7 +49,7 @@ export const getUserInfo = userID => {
  * 更改用户资料
  * @param { object } data 用户资料
  * @param { string } userID 用户 id
- * @returns
+ * @returns 提示信息 状态码
  */
 export const changeUserInfo = (data, userID) => {
   return require({
@@ -66,7 +66,7 @@ export const changeUserInfo = (data, userID) => {
  * 更改用户密码
  * @param { object } data 用户密码
  * @param { string } userID 用户 id
- * @returns
+ * @returns 提示信息 状态码
  */
 export const changeUserPass = (data, userID) => {
   return require({

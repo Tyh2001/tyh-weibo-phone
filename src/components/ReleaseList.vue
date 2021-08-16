@@ -12,8 +12,9 @@
           type="primary"
           :disabled="publishDisabledBtn"
           @click="publishContent"
-          >发布</van-button
         >
+          发布
+        </van-button>
       </template>
     </van-nav-bar>
 

@@ -39,9 +39,15 @@
       />
 
       <div style="margin: 16px">
-        <van-button round block native-type="submit" type="primary" size="small"
-          >修改密码</van-button
+        <van-button
+          round
+          block
+          native-type="submit"
+          type="primary"
+          size="small"
         >
+          修改密码
+        </van-button>
       </div>
     </van-form>
   </div>

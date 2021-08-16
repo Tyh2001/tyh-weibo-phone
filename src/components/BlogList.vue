@@ -2,11 +2,15 @@
   <div id="BlogList">
     <!-- 用户头像 -->
     <div class="userInfo">
-      <img class="photo" :src="blogItem.avatar" />
-      <div class="info">
-        <h4 class="nickname">{{ blogItem.nickname }}</h4>
-        <p class="time">{{ blogItem.release_time }}</p>
+      <div class="userInfo_name">
+        <img class="photo" :src="blogItem.avatar" />
+        <div class="info">
+          <h4 class="nickname">{{ blogItem.nickname }}</h4>
+          <p class="time">{{ blogItem.release_time }}</p>
+        </div>
       </div>
+
+      <van-icon name="arrow-down" size="18px" @click="changePopup = true" />
     </div>
     <div class="blog">
       <p class="blogText">{{ blogItem.text }}</p>
@@ -33,10 +37,31 @@
         </div>
       </div>
     </div>
+
+    <!-- 点击编辑的弹出层 -->
+    <van-popup v-model="changePopup" position="bottom" get-container="body">
+      <p>
+        <van-icon name="minus" />
+      </p>
+      <van-cell-group>
+        <van-cell v-if="changeDelete" title="删除" icon="delete-o" />
+        <van-cell v-if="followShow" title="关注Ta" icon="friends-o" />
+        <van-cell v-if="followShow" title="取消关注Ta" icon="manager-o" />
+
+        <van-button
+          type="default"
+          round
+          size="small"
+          @click="changePopup = false"
+          >取消</van-button
+        >
+      </van-cell-group>
+    </van-popup>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'BlogList',
   components: {},
@@ -48,9 +73,21 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      changePopup: false // 点击编辑展示的弹出层
+    }
   },
-  computed: {},
+  computed: {
+    ...mapState(['userInfo']),
+    // 是否显示关注和取消关注的按钮展示
+    followShow () {
+      return this.blogItem.user_id !== this.userInfo.id
+    },
+    // 是否显示删除按钮
+    changeDelete () {
+      return this.blogItem.user_id === this.userInfo.id
+    }
+  },
   watch: {},
   created () { },
   mounted () { },
@@ -67,29 +104,33 @@ export default {
   background: #fff;
   margin-top: 10px;
   width: 100%;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
   box-sizing: border-box;
   border-radius: 5px;
   .userInfo {
     width: 73px;
     display: flex;
+    justify-content: space-between;
     width: 100%;
-    .photo {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-    }
-    .info {
-      .nickname {
-        line-height: 30px;
-        color: #333;
-        font-size: 15px;
-        margin-left: 5px;
+    .userInfo_name {
+      display: flex;
+      .photo {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
       }
-      .time {
-        font-size: 12px;
-        color: #5e5e5e;
-        margin-left: 5px;
+      .info {
+        .nickname {
+          line-height: 30px;
+          color: #333;
+          font-size: 15px;
+          margin-left: 5px;
+        }
+        .time {
+          font-size: 12px;
+          color: #5e5e5e;
+          margin-left: 5px;
+        }
       }
     }
   }
@@ -130,6 +171,20 @@ export default {
         }
       }
     }
+  }
+}
+// 编辑的弹出层
+.van-popup {
+  padding-bottom: 20px;
+  p {
+    text-align: center;
+    line-height: 10px;
+  }
+  .van-button {
+    width: 100%;
+  }
+  .van-cell:active {
+    background-color: #f2f3f5;
   }
 }
 </style>

@@ -33,8 +33,9 @@
           type="primary"
           size="small"
           native-type="submit"
-          >登录</van-button
         >
+          登录
+        </van-button>
       </div>
     </van-form>
 

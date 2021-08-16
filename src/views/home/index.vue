@@ -10,6 +10,8 @@
             :key="index"
             :blogItem="blogItem"
           />
+
+          <NoMore />
         </van-tab>
 
         <!-- 关注 -->
@@ -35,11 +37,13 @@ import { mapState } from 'vuex'
 import { getAllBlogList } from '@/api/blog'
 import BlogList from '@/components/BlogList'
 import ReleaseList from '@/components/ReleaseList'
+import NoMore from '@/components/NoMore'
 export default {
   name: 'homeIndex',
   components: {
     BlogList,
-    ReleaseList
+    ReleaseList,
+    NoMore
   },
   props: {},
   data () {
