@@ -10,7 +10,12 @@
         </div>
       </div>
 
-      <van-icon name="arrow-down" size="18px" @click="changePopup = true" />
+      <van-icon
+        v-if="userInfo"
+        name="arrow-down"
+        size="18px"
+        @click="changePopup = true"
+      />
     </div>
     <div class="blog">
       <p class="blogText">{{ blogItem.text }}</p>
@@ -39,12 +44,22 @@
     </div>
 
     <!-- 点击编辑的弹出层 -->
-    <van-popup v-model="changePopup" position="bottom" get-container="body">
+    <van-popup
+      v-if="userInfo"
+      v-model="changePopup"
+      position="bottom"
+      get-container="body"
+    >
       <p>
         <van-icon name="minus" />
       </p>
       <van-cell-group>
-        <van-cell v-if="changeDelete" title="删除" icon="delete-o" />
+        <van-cell
+          v-if="changeDelete"
+          title="删除"
+          icon="delete-o"
+          @click="deleteBlog"
+        />
         <van-cell v-if="followShow" title="关注Ta" icon="friends-o" />
         <van-cell v-if="followShow" title="取消关注Ta" icon="manager-o" />
 
@@ -53,14 +68,16 @@
           round
           size="small"
           @click="changePopup = false"
-          >取消</van-button
         >
+          取消
+        </van-button>
       </van-cell-group>
     </van-popup>
   </div>
 </template>
 
 <script>
+import { deleteMyBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 export default {
   name: 'BlogList',
@@ -92,8 +109,25 @@ export default {
   created () { },
   mounted () { },
   methods: {
+    // 图片路径参数
     blogItemImgURL (url) {
       return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+    },
+    // 删除指定博客内容
+    deleteBlog () {
+      this.$dialog.confirm({
+        title: '确定删除？',
+        message: '该操作将会永久删除内容！'
+      })
+        .then(async () => {
+          const { data } = await deleteMyBlogList(this.blogItem.blogId)
+          this.changePopup = false
+          this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+
+          // 给父组件发送自定义事件
+          this.$emit('loadBlogList')
+        })
+        .catch(() => { })
     }
   }
 }

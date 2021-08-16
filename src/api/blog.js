@@ -44,3 +44,18 @@ export const getUserBlogList = userId => {
     }
   })
 }
+
+/**
+ * 删除用户的博客内容
+ * @param { string } params  博客 id
+ * @returns 提示信息 状态码
+ */
+export const deleteMyBlogList = blogId => {
+  return require({
+    method: 'GET',
+    url: 'index/Blog/deleteMyBlog',
+    params: {
+      blogId: blogId
+    }
+  })
+}

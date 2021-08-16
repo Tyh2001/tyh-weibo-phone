@@ -9,6 +9,7 @@
             v-for="(blogItem, index) in blogList"
             :key="index"
             :blogItem="blogItem"
+            @loadBlogList="loadgetAllBlogList"
           />
 
           <NoMore />

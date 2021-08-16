@@ -50,6 +50,7 @@
         v-for="(blogItem, index) in userBlogList"
         :key="index"
         :blogItem="blogItem"
+        @loadBlogList="loadgetUserBlogList"
       />
 
       <NoMore />
@@ -132,12 +133,7 @@ export default {
 
 <style lang='less' scoped>
 #myIndex {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 49px;
-  overflow: auto;
+  padding-bottom: 49px;
   .banner {
     width: 100%;
     height: 120px;

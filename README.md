@@ -316,6 +316,8 @@
 | msg             | string | 必须     |        | 提示信息 |
 | data            | object | 非必须   |        | 数据     |
 | ├─ nickname     | string | 必须     |        | 昵称     |
+| ├─ blogId       | string | 必须     |        | 博客 id  |
+| ├─ user_id      | string | 必须     |        | 用户 id  |
 | ├─ avatar       | string | 必须     |        | 头像     |
 | ├─ release_time | string | 必须     |        | 发布时间 |
 | ├─ text         | string | 必须     |        | 博客文字 |
@@ -352,6 +354,8 @@
 | code            | number | 必须     |        | 状态码   |
 | msg             | string | 必须     |        | 提示信息 |
 | data            | object | 非必须   |        | 数据     |
+| ├─ blogId       | string | 必须     |        | 博客 id  |
+| ├─ user_id      | string | 必须     |        | 用户 id  |
 | ├─ nickname     | string | 必须     |        | 昵称     |
 | ├─ avatar       | string | 必须     |        | 头像     |
 | ├─ release_time | string | 必须     |        | 发布时间 |
