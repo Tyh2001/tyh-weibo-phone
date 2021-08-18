@@ -151,6 +151,10 @@ export default {
   methods: {
     // 注册账号
     async onSubmitRegister (values) {
+      if (values.password !== values.password2) {
+        this.$notify({ type: 'danger', message: '两次密码输入不一致', duration: 1300 })
+        return
+      }
       this.registerDisabled = true
       values.captchaCode = this.captchaCode // 传递随机数
       const { data } = await onRegister(this.$qs.stringify(values))

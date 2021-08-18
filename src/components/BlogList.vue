@@ -60,8 +60,18 @@
           icon="delete-o"
           @click="deleteBlog"
         />
-        <van-cell v-if="followShow" title="关注Ta" icon="friends-o" />
-        <van-cell v-if="followShow" title="取消关注Ta" icon="manager-o" />
+        <van-cell
+          v-if="followShow"
+          title="关注Ta"
+          icon="friends-o"
+          @click="changeFollowTa"
+        />
+        <van-cell
+          v-if="followShow"
+          title="取消关注Ta"
+          icon="manager-o"
+          @click="changeNotFollowTa"
+        />
 
         <van-button
           type="default"
@@ -112,6 +122,7 @@ export default {
     // 图片路径参数
     blogItemImgURL (url) {
       return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
     },
     // 删除指定博客内容
     deleteBlog () {
@@ -128,6 +139,14 @@ export default {
           this.$emit('loadBlogList')
         })
         .catch(() => { })
+    },
+    // 关注
+    changeFollowTa () {
+      this.$notify({ type: 'danger', message: '开发中...稍后再试', duration: 1300 })
+    },
+    // 取消关注
+    changeNotFollowTa () {
+      this.$notify({ type: 'danger', message: '开发中...稍后再试', duration: 1300 })
     }
   }
 }

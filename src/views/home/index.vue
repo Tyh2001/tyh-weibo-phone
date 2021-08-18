@@ -18,7 +18,9 @@
         <!-- 关注 -->
         <van-tab title="关注">后续更新</van-tab>
       </van-tabs>
-      <van-icon name="add-o" size="22" @click="releaseBlogPopup = true" />
+
+      <!-- 添加按钮 -->
+      <van-icon name="add-o" size="22" @click="addBlogList" />
     </div>
 
     <!-- 发布弹出层 -->
@@ -67,6 +69,16 @@ export default {
     async loadgetAllBlogList () {
       const { data } = await getAllBlogList()
       this.blogList = data.data
+    },
+    // 首页导航栏添加按钮
+    addBlogList () {
+      // 当点击 + 号的时候 如果没有登录则跳到登录页面
+      if (this.userInfo) {
+        this.releaseBlogPopup = true
+        return
+      }
+      this.$notify({ type: 'danger', message: '请登录后再试', duration: 1300 })
+      this.$router.push('/user/login')
     }
   }
 }
@@ -75,6 +87,8 @@ export default {
 <style lang='less' scoped>
 #honeIndex {
   #Navigation {
+    position: relative;
+    overflow: hidden;
     display: flex;
     justify-content: space-around;
     align-items: center;

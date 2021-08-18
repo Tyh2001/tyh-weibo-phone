@@ -439,7 +439,7 @@ export default {
     // 点击取消的时候
     onCancelGender () {
       this.upPopupUserGender = false
-      this.$toast('取消')
+      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
     },
     /**
      * 更改感情状况
@@ -460,7 +460,7 @@ export default {
     // 点击取消的时候
     onCancelFeeling () {
       this.upPopupUserFeeling = false
-      this.$toast('取消')
+      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
     },
     /**
      * 更改工作
@@ -481,7 +481,7 @@ export default {
     // 点击取消的时候
     onCancelWork () {
       this.upPopupUserWork = false
-      this.$toast('取消')
+      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
     },
     /**
      * 选择生日
@@ -502,7 +502,7 @@ export default {
     // 点击取消的时候
     cancelBirthday () {
       this.upPopupUserBirthday = false
-      this.$toast('取消')
+      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
     },
     // 计算时间
     getNowFormatDate (time) {
@@ -531,7 +531,7 @@ export default {
     // 当点击取消的时候
     cancelCity () {
       this.upPopupUserCity = false
-      this.$toast('取消')
+      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
     }
   }
 }
