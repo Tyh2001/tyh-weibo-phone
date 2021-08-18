@@ -87,7 +87,11 @@ export default {
 <style lang='less' scoped>
 #honeIndex {
   #Navigation {
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    user-select: none;
     overflow: hidden;
     display: flex;
     justify-content: space-around;

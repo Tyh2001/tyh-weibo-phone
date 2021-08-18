@@ -4,6 +4,7 @@
 ### 接口地址
 
 基础地址：http://localhost/Virgo_Tyh_PHP/public/index.php/
+线上地址：https://tianyuhao.icu/backstage/virgo_tyh_php/public/index.php/
 
 
 

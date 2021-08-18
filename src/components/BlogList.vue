@@ -121,8 +121,8 @@ export default {
   methods: {
     // 图片路径参数
     blogItemImgURL (url) {
-      return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
+      // return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
     },
     // 删除指定博客内容
     deleteBlog () {

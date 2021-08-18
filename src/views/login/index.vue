@@ -70,6 +70,10 @@ export default {
   created () { },
   mounted () { },
   methods: {
+    // 提示消息函数
+    notifyShow (type, text) {
+      this.$notify({ type: type, message: text, duration: 1300 })
+    },
     // 登录
     async onSubmitLogin (values) {
       // 减少发送请求 如果账号和密码格式不正确则不能发送请求直接返回
@@ -79,7 +83,7 @@ export default {
         values.username.length < 6 ||
         values.password.length < 8
       ) {
-        this.$notify({ type: 'danger', message: '请输入正确账号和密码', duration: 1300 })
+        this.notifyShow('danger', '请输入正确账号和密码')
         return
       }
 
@@ -89,18 +93,18 @@ export default {
 
       // 登录成功的操作
       if (data.code === 201) {
-        this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+        this.notifyShow('success', data.msg)
         this.$store.commit('changeUser', data.data)
         this.buttonDisabled = false
         this.$router.push('/')
         return
       }
       this.buttonDisabled = false
-      this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+      this.notifyShow('danger', data.msg)
     },
     // 提交表单且验证不通过后触发
     onFailed (errorInfo) {
-      this.$notify({ type: 'danger', message: errorInfo.errors[0].message, duration: 1300 })
+      this.notifyShow('danger', errorInfo.errors[0].message)
     }
   }
 }

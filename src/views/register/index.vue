@@ -149,10 +149,14 @@ export default {
   },
   mounted () { },
   methods: {
+    // 提示消息函数
+    notifyShow (type, text) {
+      this.$notify({ type: type, message: text, duration: 1300 })
+    },
     // 注册账号
     async onSubmitRegister (values) {
       if (values.password !== values.password2) {
-        this.$notify({ type: 'danger', message: '两次密码输入不一致', duration: 1300 })
+        this.notifyShow('danger', '两次密码输入不一致')
         return
       }
       this.registerDisabled = true
@@ -161,7 +165,7 @@ export default {
 
       // 根据后端返回数据判断用户登录
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         // 如果验证码错误则重新加载一个新的验证码图片
         if (data.msg === '验证码错误') {
           this.captchaCode = randomNum(15, 1)
@@ -171,7 +175,7 @@ export default {
       }
 
       this.registerDisabled = false
-      this.$notify({ type: 'success', message: '注册成功', duration: 1300 })
+      this.notifyShow('success', '注册成功')
       this.$router.push('/user/login')
     },
     // 点击切换验证码图片
@@ -181,10 +185,10 @@ export default {
     // 提交表单且验证不通过后触发
     onFailed (errorInfo) {
       if (errorInfo.values.password !== errorInfo.values.password2) {
-        this.$notify({ type: 'danger', message: '两次密码输入不一致', duration: 1300 })
+        this.notifyShow('danger', '两次密码输入不一致')
         return
       }
-      this.$notify({ type: 'danger', message: errorInfo.errors[0].message, duration: 1300 })
+      this.notifyShow('danger', errorInfo.errors[0].message)
     }
   }
 }

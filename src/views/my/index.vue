@@ -9,7 +9,7 @@
       <div class="Info_list">
         <img
           class="user_photo"
-          :src="userForm.avatar"
+          :src="userPhotoAvatar"
           @click="$router.push('/setting')"
         />
 
@@ -95,7 +95,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+    }
   },
   watch: {},
   created () {

@@ -5,8 +5,8 @@
 import require from '@/utils/require'
 
 /**
- * 上传用户发布的文字内容
- * @param { object } data 文字内容
+ * 发布博客
+ * @param { object } data 图片内容
  * @param { object } params 用户 id 和文字内容
  * @returns 提示信息 状态码
  */

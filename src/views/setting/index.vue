@@ -21,7 +21,7 @@
         <div>
           <van-image
             round
-            :src="userForm.avatar"
+            :src="userPhotoAvatar"
             @click="$refs.file_input.click()"
           />
         </div>
@@ -309,7 +309,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+    }
   },
   watch: {},
   created () {
@@ -317,6 +320,10 @@ export default {
   },
   mounted () { },
   methods: {
+    // 提示消息函数
+    notifyShow (type, text) {
+      this.$notify({ type: type, message: text, duration: 1300 })
+    },
     // 获取用户信息
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
@@ -340,7 +347,7 @@ export default {
     },
     // 取消上传头像
     CanceluploadingAvatar () {
-      this.$notify({ type: 'danger', message: '已取消上传', duration: 1300 })
+      this.notifyShow('danger', '已取消上传')
       this.upPopupUserPhoto = false
     },
     // 确认上传头像
@@ -371,7 +378,7 @@ export default {
 
       // 如果格式不符合的时候
       if (nickName === '' || nickName < 3 || nickName > 15) {
-        this.$notify({ type: 'danger', message: '昵称长度在3到15个字符', duration: 1300 })
+        this.notifyShow('danger', '昵称长度在3到15个字符')
         return
       }
       // 替换数据提交表单内容
@@ -379,11 +386,11 @@ export default {
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserNickname = false
     },
     // 更改个性签名 当点击确定按钮的时候
@@ -392,11 +399,11 @@ export default {
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserAutograph = false
     },
     // 更改邮箱 当点击确定按钮的时候
@@ -406,18 +413,18 @@ export default {
 
       // 如果正则不通过则返回
       if (!mailPattern.test(mail)) {
-        this.$notify({ type: 'danger', message: '邮箱格式不正确', duration: 1300 })
+        this.notifyShow('danger', '邮箱格式不正确')
         return
       }
       this.userForm.mail = mail
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserMail = false
     },
     /**
@@ -429,17 +436,17 @@ export default {
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserGender = false
     },
     // 点击取消的时候
     onCancelGender () {
       this.upPopupUserGender = false
-      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
+      this.notifyShow('danger', '已取消')
     },
     /**
      * 更改感情状况
@@ -450,17 +457,17 @@ export default {
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserFeeling = false
     },
     // 点击取消的时候
     onCancelFeeling () {
       this.upPopupUserFeeling = false
-      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
+      this.notifyShow('danger', '已取消')
     },
     /**
      * 更改工作
@@ -471,17 +478,17 @@ export default {
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserWork = false
     },
     // 点击取消的时候
     onCancelWork () {
       this.upPopupUserWork = false
-      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
+      this.notifyShow('danger', '已取消')
     },
     /**
      * 选择生日
@@ -492,17 +499,17 @@ export default {
 
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
-        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.notifyShow('danger', data.msg)
         return
       }
 
-      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.notifyShow('success', data.msg)
       this.upPopupUserBirthday = false
     },
     // 点击取消的时候
     cancelBirthday () {
       this.upPopupUserBirthday = false
-      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
+      this.notifyShow('danger', '已取消')
     },
     // 计算时间
     getNowFormatDate (time) {
@@ -526,12 +533,12 @@ export default {
     // 当点击确定的时候
     confirmCity (value) {
       console.log(value)
-      this.$toast('城市选择维护中，稍后再试')
+      this.notifyShow('danger', '城市选择维护中，稍后再试')
     },
     // 当点击取消的时候
     cancelCity () {
       this.upPopupUserCity = false
-      this.$notify({ type: 'danger', message: '已取消', duration: 1300 })
+      this.notifyShow('danger', '已取消')
     }
   }
 }
