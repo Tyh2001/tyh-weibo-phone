@@ -4,7 +4,6 @@
 ### 接口地址
 
 基础地址：http://localhost/Virgo_Tyh_PHP/public/index.php/
-线上地址：https://tianyuhao.icu/backstage/virgo_tyh_php/public/index.php/
 
 
 
@@ -362,3 +361,34 @@
 | ├─ release_time | string | 必须     |        | 发布时间 |
 | ├─ text         | string | 必须     |        | 博客文字 |
 | ├─ image        | array  | 必须     |        | 博客图片 |
+
+
+
+### 删除自己的指定博客内容
+
+#### 基本信息
+
+**Path：** index/Blog/deleteMyBlog
+
+**Method：** GET
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/deleteMyBlog
+
+#### 返回HTTP状态码
+
+1. 201 删除成功
+
+#### 请求参数
+
+**Query**
+
+| 名称   | 类型   | 是否必须 | 默认值 | 备注    |
+| ------ | ------ | -------- | ------ | ------- |
+| blogId | string | 必须     |        | 博客 id |
+
+#### 返回数据
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注     |
+| ---- | ------ | -------- | ------ | -------- |
+| code | number | 必须     |        | 状态码   |
+| msg  | string | 必须     |        | 提示信息 |
