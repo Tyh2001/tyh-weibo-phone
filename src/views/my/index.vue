@@ -67,9 +67,9 @@
         <van-cell to="/setting" title="设置" is-link />
         <van-cell to="/pass" title="修改密码" is-link />
       </van-cell-group>
-      <van-button type="default" size="normal" @click="outLogin"
-        >退出登录</van-button
-      >
+      <van-button type="default" size="normal" @click="outLogin">
+        退出登录
+      </van-button>
     </van-popup>
   </div>
 </template>
