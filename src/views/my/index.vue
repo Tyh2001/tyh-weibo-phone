@@ -80,6 +80,7 @@ import { getUserBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 import BlogList from '@/components/BlogList'
 import NoMore from '@/components/NoMore'
+import url from '@/utils/url'
 export default {
   name: 'myIndex',
   components: {
@@ -97,7 +98,10 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+      if (this.userForm.avatar) {
+        return `${url}/userPhoto/${this.userForm.avatar}`
+      }
+      return ''
     }
   },
   watch: {},

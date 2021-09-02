@@ -3,7 +3,7 @@
     <!-- 用户头像 -->
     <div class="userInfo">
       <div class="userInfo_name">
-        <img class="photo" :src="blogItem.avatar" />
+        <img class="photo" :src="blogPhotoImg(blogItem.avatar)" />
         <div class="info">
           <h4 class="nickname">{{ blogItem.nickname }}</h4>
           <p class="time">{{ blogItem.release_time }}</p>
@@ -32,11 +32,11 @@
 
       <!-- 点赞框 -->
       <div class="fabulous">
-        <div class="say">
+        <div class="say" @click="changeSay">
           <van-icon name="chat-o" />
           评论
         </div>
-        <div class="good">
+        <div class="good" @click="changeGood">
           <van-icon name="good-job-o" />
           点赞
         </div>
@@ -89,6 +89,7 @@
 <script>
 import { deleteMyBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
+import url from '@/utils/url'
 export default {
   name: 'BlogList',
   components: {},
@@ -120,9 +121,12 @@ export default {
   mounted () { },
   methods: {
     // 图片路径参数
-    blogItemImgURL (url) {
-      // return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
+    blogItemImgURL (imgUrl) {
+      return `${url}/blogImg/${imgUrl}`
+    },
+    // 头像地址
+    blogPhotoImg (photoUrl) {
+      return `${url}/userPhoto/${photoUrl}`
     },
     // 删除指定博客内容
     deleteBlog () {
@@ -147,6 +151,14 @@ export default {
     // 取消关注
     changeNotFollowTa () {
       this.$notify({ type: 'danger', message: '开发中...稍后再试', duration: 1300 })
+    },
+    // 点击评论
+    changeSay () {
+      this.$notify({ type: 'danger', message: '评论功能正在开发中...', duration: 1300 })
+    },
+    // 点击点赞
+    changeGood () {
+      this.$notify({ type: 'danger', message: '点赞功能正在开发中...', duration: 1300 })
     }
   }
 }

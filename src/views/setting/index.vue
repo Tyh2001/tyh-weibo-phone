@@ -257,6 +257,7 @@ import { getUserInfo, uploadUserPhoto, changeUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
+import url from '@/utils/url'
 export default {
   name: 'settingIndex',
   components: {},
@@ -311,7 +312,7 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+      return `${url}/userPhoto/${this.userForm.avatar}`
     }
   },
   watch: {},
@@ -360,7 +361,8 @@ export default {
         formData.append('photo', blob, '.jpg')
 
         uploadUserPhoto(formData, this.userInfo.id).then(res => {
-          this.userForm.avatar = res.data.data.url // 更新头像
+          this.userForm.avatar = url + '/' + res.data.data.url // 更新头像
+          console.log(res)
           this.upPopupUserPhoto = false // 关于对话框
           this.$toast('上传头像成功')
         })
