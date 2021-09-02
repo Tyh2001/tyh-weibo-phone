@@ -100,8 +100,10 @@ export default {
     },
     // 获取我关注人的博客内容
     async loadgetFollowAllBlogList () {
-      const { data } = await getFollowAllBlogList(this.userInfo.id)
-      this.followBlogList = data.data
+      if (this.userInfo) {
+        const { data } = await getFollowAllBlogList(this.userInfo.id)
+        this.followBlogList = data.data
+      }
     }
   }
 }
