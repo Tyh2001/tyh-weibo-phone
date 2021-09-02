@@ -1,6 +1,13 @@
 <template>
   <div id="myIndex">
     <div class="banner">
+      <p
+        class="return"
+        v-if="userInfo.id.toString() !== $route.params.id.toString()"
+        @click="$router.push('/')"
+      >
+        返回
+      </p>
       <van-icon
         v-show="$route.params.id.toString() === userInfo.id.toString()"
         name="wap-nav"
@@ -242,6 +249,12 @@ export default {
       top: 20px;
       right: 20px;
       font-size: 18px;
+    }
+    .return {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 15px;
     }
   }
   #userInfo {
