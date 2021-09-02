@@ -3,7 +3,11 @@
     <!-- 用户头像 -->
     <div class="userInfo">
       <div class="userInfo_name">
-        <img class="photo" :src="blogPhotoImg(blogItem.avatar)" />
+        <img
+          class="photo"
+          :src="blogPhotoImg(blogItem.avatar)"
+          @click="pushItemMy"
+        />
         <div class="info">
           <h4 class="nickname">{{ blogItem.nickname }}</h4>
           <p class="time">{{ blogItem.release_time }}</p>
@@ -90,6 +94,8 @@
 import { deleteMyBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 import url from '@/utils/url'
+// 关注用户 - 取消关注用户
+import { onFollowUser, deleteFollowUser } from '@/api/follow'
 export default {
   name: 'BlogList',
   components: {},
@@ -145,12 +151,42 @@ export default {
         .catch(() => { })
     },
     // 关注
-    changeFollowTa () {
-      this.$notify({ type: 'danger', message: '开发中...稍后再试', duration: 1300 })
+    async changeFollowTa () {
+      const { data } = await onFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.blogItem.user_id
+        }
+      ))
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.changePopup = false
+        return
+      }
+      // 操作成功
+      this.changePopup = false
+      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.$emit('loadBlogList')
     },
     // 取消关注
-    changeNotFollowTa () {
-      this.$notify({ type: 'danger', message: '开发中...稍后再试', duration: 1300 })
+    async changeNotFollowTa () {
+      const { data } = await deleteFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.blogItem.user_id
+        }
+      ))
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.changePopup = false
+        return
+      }
+      // 操作成功
+      this.changePopup = false
+      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.$emit('loadBlogList')
     },
     // 点击评论
     changeSay () {
@@ -159,6 +195,10 @@ export default {
     // 点击点赞
     changeGood () {
       this.$notify({ type: 'danger', message: '点赞功能正在开发中...', duration: 1300 })
+    },
+    // 点击图片跳转对应的用户的页面
+    pushItemMy () {
+      this.$router.push(`/my/${this.blogItem.user_id}`)
     }
   }
 }

@@ -1,7 +1,11 @@
 <template>
   <div id="myIndex">
     <div class="banner">
-      <van-icon name="wap-nav" @click="popupShow = true" />
+      <van-icon
+        v-show="$route.params.id.toString() === userInfo.id.toString()"
+        name="wap-nav"
+        @click="popupShow = true"
+      />
     </div>
 
     <!-- 用户资料 -->
@@ -25,14 +29,14 @@
           <van-grid-item>
             <template #default>
               <p class="title">粉丝</p>
-              <p class="num">0</p>
+              <p class="num">{{ userForm.fans_list }}</p>
             </template>
           </van-grid-item>
 
           <van-grid-item>
             <template #default>
               <p class="title">关注</p>
-              <p class="num">0</p>
+              <p class="num">{{ userForm.follow_list }}</p>
             </template>
           </van-grid-item>
         </van-grid>
@@ -75,11 +79,11 @@
 </template>
 
 <script>
-import { getUserInfo } from '@/api/user'
 import { getUserBlogList } from '@/api/blog'
-import { mapState } from 'vuex'
 import BlogList from '@/components/BlogList'
 import NoMore from '@/components/NoMore'
+import { getUserInfo } from '@/api/user'
+import { mapState } from 'vuex'
 import url from '@/utils/url'
 export default {
   name: 'myIndex',
@@ -104,7 +108,16 @@ export default {
       return ''
     }
   },
-  watch: {},
+  watch: {
+    // 监视路由的变化，如果发生变化就重新加载内容
+    // 因为这里防止进入其他人的主页时候 再点击自己的博客不发生变化的问题
+    '$route' (to, from) {
+      if (this.$route.params.id) {
+        this.loadgetUserInfo()
+        this.loadgetUserBlogList()
+      }
+    }
+  },
   created () {
     this.loadgetUserInfo() // 获取用户资料
     this.loadgetUserBlogList() // 获取指定用户的博客内容
@@ -113,7 +126,7 @@ export default {
   methods: {
     // 获取用户信息
     async loadgetUserInfo () {
-      const { data } = await getUserInfo(this.userInfo.id)
+      const { data } = await getUserInfo(this.$route.params.id)
       this.userForm = data.data
     },
     // 退出登录
@@ -131,7 +144,7 @@ export default {
     },
     // 获取指定用户的博客内容
     async loadgetUserBlogList () {
-      const { data } = await getUserBlogList(this.userInfo.id)
+      const { data } = await getUserBlogList(this.$route.params.id)
       this.userBlogList = data.data
     }
   }

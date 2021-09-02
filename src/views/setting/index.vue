@@ -237,7 +237,7 @@
     </van-popup>
 
     <!-- 更改城市的弹出框 -->
-    <van-popup
+    <!-- <van-popup
       position="bottom"
       :columns-placeholder="['请选择', '请选择', '请选择']"
       v-model="upPopupUserCity"
@@ -248,7 +248,7 @@
         @confirm="confirmCity"
         @cancel="cancelCity"
       />
-    </van-popup>
+    </van-popup> -->
   </div>
 </template>
 
@@ -271,20 +271,6 @@ export default {
        * 切换到其他信息的修改的时候 同样会修改之前不想修改的内容
        * 这里仅限于：昵称、个性签名、邮箱
        */
-      areaList: {
-        province_list: {
-          110000: '北京市',
-          120000: '天津市'
-        },
-        city_list: {
-          110100: '北京市',
-          120100: '天津市'
-        },
-        county_list: {
-          110101: '东城区',
-          110102: '西城区'
-        }
-      },
       originalUserInfo: {
         nickname: '',
         autograph: '',
@@ -312,7 +298,10 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `${url}/userPhoto/${this.userForm.avatar}`
+      if (this.userForm.avatar) {
+        return `${url}/userPhoto/${this.userForm.avatar}`
+      }
+      return ''
     }
   },
   watch: {},

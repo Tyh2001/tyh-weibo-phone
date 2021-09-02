@@ -19,7 +19,7 @@ const routes = [
       },
       // 我的
       {
-        path: '/my',
+        path: '/my/:id',
         name: 'my',
         component: () => import('@/views/my'),
         meta: { requiresAuth: true }

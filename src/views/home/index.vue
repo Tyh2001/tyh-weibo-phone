@@ -9,14 +9,23 @@
             v-for="(blogItem, index) in blogList"
             :key="index"
             :blogItem="blogItem"
-            @loadBlogList="loadgetAllBlogList"
+            @loadBlogList="loadgetAllBlogList(), loadgetFollowAllBlogList()"
           />
 
           <NoMore />
         </van-tab>
 
         <!-- 关注 -->
-        <van-tab title="关注">后续更新</van-tab>
+        <van-tab title="关注">
+          <BlogList
+            v-for="(followblogItem, index) in followBlogList"
+            :key="index"
+            :blogItem="followblogItem"
+            @loadBlogList="loadgetFollowAllBlogList"
+          />
+
+          <NoMore />
+        </van-tab>
       </van-tabs>
 
       <!-- 添加按钮 -->
@@ -36,8 +45,8 @@
 
 <script>
 import { mapState } from 'vuex'
-// 获取所有博客
-import { getAllBlogList } from '@/api/blog'
+// 获取所有博客 - 获取我关注人的博客内容
+import { getAllBlogList, getFollowAllBlogList } from '@/api/blog'
 import BlogList from '@/components/BlogList'
 import ReleaseList from '@/components/ReleaseList'
 import NoMore from '@/components/NoMore'
@@ -52,16 +61,25 @@ export default {
   data () {
     return {
       releaseBlogPopup: false, // 发布弹出层
-      active: 2, // 选项卡
+      active: 0, // 选项卡
+      followBlogList: [], // 关注人的博客内容
       blogList: [] // 博客内容
     }
   },
   computed: {
     ...mapState(['userInfo'])
   },
-  watch: {},
+  watch: {
+    active () {
+      if (!this.userInfo && this.active === 1) {
+        this.$router.push('/user/login')
+        this.$notify({ type: 'danger', message: '请登录后再查看关注', duration: 1300 })
+      }
+    }
+  },
   created () {
     this.loadgetAllBlogList() // 获取所有博客内容
+    this.loadgetFollowAllBlogList() // 获取我关注人的博客内容
   },
   mounted () { },
   methods: {
@@ -79,6 +97,11 @@ export default {
       }
       this.$notify({ type: 'danger', message: '请登录后再试', duration: 1300 })
       this.$router.push('/user/login')
+    },
+    // 获取我关注人的博客内容
+    async loadgetFollowAllBlogList () {
+      const { data } = await getFollowAllBlogList(this.userInfo.id)
+      this.followBlogList = data.data
     }
   }
 }
