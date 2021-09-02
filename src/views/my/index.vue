@@ -26,14 +26,14 @@
             </template>
           </van-grid-item>
 
-          <van-grid-item>
+          <van-grid-item @click="fansPopupShowList">
             <template #default>
               <p class="title">粉丝</p>
               <p class="num">{{ userForm.fans_list }}</p>
             </template>
           </van-grid-item>
 
-          <van-grid-item>
+          <van-grid-item @click="followPopupShowList">
             <template #default>
               <p class="title">关注</p>
               <p class="num">{{ userForm.follow_list }}</p>
@@ -66,7 +66,7 @@
     </div>
 
     <!-- 点击侧边弹出层 -->
-    <van-popup v-model="popupShow" position="right">
+    <van-popup id="leftPopup" v-model="popupShow" position="right">
       <van-cell-group :border="false">
         <van-cell to="/setting" title="设置" is-link />
         <van-cell to="/pass" title="修改密码" is-link />
@@ -75,25 +75,74 @@
         退出登录
       </van-button>
     </van-popup>
+
+    <!-- 关注列表弹出层 -->
+    <van-popup
+      v-model="followPopupShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <van-nav-bar
+        title="我的关注"
+        left-arrow
+        @click-left="followPopupShow = false"
+      />
+
+      <UserList
+        v-for="(myFollowUserItem, index) in myFollowUser"
+        :key="index"
+        :item="myFollowUserItem"
+        @closePopup="followPopupShow = false"
+      />
+    </van-popup>
+
+    <!-- 粉丝列表弹出层 -->
+    <van-popup
+      v-model="fansPopupShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <van-nav-bar
+        title="我的粉丝"
+        left-arrow
+        @click-left="fansPopupShow = false"
+      />
+
+      <UserList
+        v-for="(myFansListItem, index) in myFansList"
+        :key="index"
+        :isFans="true"
+        :item="myFansListItem"
+        @closePopup="fansPopupShow = false"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
+// 获取我的博客列表 - 获取关注列表
 import { getUserBlogList } from '@/api/blog'
+import { getFollowUserList, getFansUserList } from '@/api/follow'
 import BlogList from '@/components/BlogList'
 import NoMore from '@/components/NoMore'
 import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
 import url from '@/utils/url'
+import UserList from '@/components/UserList'
 export default {
   name: 'myIndex',
   components: {
     BlogList,
-    NoMore
+    NoMore,
+    UserList
   },
   props: {},
   data () {
     return {
+      myFansList: [], // 我的粉丝列表
+      myFollowUser: [], // 我的关注列表
+      followPopupShow: false, // 关注展示的弹出层
+      fansPopupShow: false, // 粉丝展示的弹出层
       userBlogList: [], // 用户发布的内容
       popupShow: false, // 侧边弹出层
       userForm: {} // 个人信息
@@ -121,6 +170,8 @@ export default {
   created () {
     this.loadgetUserInfo() // 获取用户资料
     this.loadgetUserBlogList() // 获取指定用户的博客内容
+    this.loadgetFollowUserList() // 获取我的关注列表
+    this.loadgetFansUserList() // 获取我的粉丝列表
   },
   mounted () { },
   methods: {
@@ -146,6 +197,32 @@ export default {
     async loadgetUserBlogList () {
       const { data } = await getUserBlogList(this.$route.params.id)
       this.userBlogList = data.data
+    },
+    // 获取我的关注列表
+    async loadgetFollowUserList () {
+      const { data } = await getFollowUserList(this.$qs.stringify({ user_id: this.userInfo.id }))
+      this.myFollowUser = data.data
+    },
+    // 获取我的粉丝列表
+    async loadgetFansUserList () {
+      const { data } = await getFansUserList(this.$qs.stringify({ user_id: this.userInfo.id }))
+      this.myFansList = data.data
+    },
+    // 打开粉丝列表
+    fansPopupShowList () {
+      if (this.userInfo.id.toString() === this.$route.params.id.toString()) {
+        this.fansPopupShow = true
+        return
+      }
+      this.$notify({ type: 'danger', message: '不能查看他人粉丝列表', duration: 1300 })
+    },
+    // 打开关注列表
+    followPopupShowList () {
+      if (this.userInfo.id.toString() === this.$route.params.id.toString()) {
+        this.followPopupShow = true
+        return
+      }
+      this.$notify({ type: 'danger', message: '不能查看他人关注列表', duration: 1300 })
     }
   }
 }
@@ -213,7 +290,7 @@ export default {
       }
     }
   }
-  .van-popup {
+  #leftPopup {
     padding: 30px 10px;
     box-sizing: border-box;
     width: 60%;
