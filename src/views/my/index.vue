@@ -165,7 +165,6 @@
 <script>
 // 获取我的博客列表 - 获取关注列表
 import { getUserBlogList } from '@/api/blog'
-// import { getFollowUserList, getFansUserList } from '@/api/follow'
 import BlogList from '@/components/BlogList'
 import NoMore from '@/components/NoMore'
 import { getUserInfo } from '@/api/user'
