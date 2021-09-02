@@ -76,6 +76,8 @@
           <van-tag type="primary">{{ registerTime() }}</van-tag>
         </p>
 
+        <hr />
+
         <!-- 关注按钮 -->
         <van-button
           v-if="followBtnShow"

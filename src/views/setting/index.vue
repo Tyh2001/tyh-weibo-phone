@@ -91,13 +91,13 @@
       />
 
       <!-- 城市 -->
-      <van-cell
+      <!-- <van-cell
         center
         title="城市"
         is-link
         :value="userForm.city"
         @click="upPopupUserCity = true"
-      />
+      /> -->
     </van-cell-group>
 
     <!-- 上传头像的弹窗 -->
