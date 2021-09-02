@@ -107,20 +107,23 @@
 
 #### 返回数据
 
-| 名称         | 类型   | 是否必须 | 默认值 | 备注     |
-| ------------ | ------ | -------- | ------ | -------- |
-| code         | number | 必须     |        | 状态码   |
-| msg          | string | 必须     |        | 提示信息 |
-| data         | object | 非必须   |        | 返回数据 |
-| ├─ avatar    | number | 必须     |        | 用户id   |
-| ├─ nickname  | string | 必须     |        | 用户昵称 |
-| ├─ autograph | string | 必须     |        | 个性签名 |
-| ├─ gender    | string | 必须     |        | 性别     |
-| ├─ feeling   | string | 必须     |        | 感情状况 |
-| ├─ work      | string | 必须     |        | 职业     |
-| ├─ city      | string | 必须     |        | 城市     |
-| ├─ birthday  | string | 必须     |        | 生日     |
-| ├─ mail      | string | 必须     |        | 邮箱     |
+| 名称           | 类型   | 是否必须 | 默认值 | 备注     |
+| -------------- | ------ | -------- | ------ | -------- |
+| code           | number | 必须     |        | 状态码   |
+| msg            | string | 必须     |        | 提示信息 |
+| data           | object | 非必须   |        | 返回数据 |
+| ├─ avatar      | number | 必须     |        | 用户id   |
+| ├─ nickname    | string | 必须     |        | 用户昵称 |
+| ├─ autograph   | string | 必须     |        | 个性签名 |
+| ├─ gender      | string | 必须     |        | 性别     |
+| ├─ feeling     | string | 必须     |        | 感情状况 |
+| ├─ work        | string | 必须     |        | 职业     |
+| ├─ city        | string | 必须     |        | 城市     |
+| ├─ birthday    | string | 必须     |        | 生日     |
+| ├─ mail        | string | 必须     |        | 邮箱     |
+| ├─ regis_time  | string | 必须     |        | 注册时间 |
+| ├─ follow_list | string | 必须     |        | 关注数量 |
+| ├─ fans_list   | string | 必须     |        | 粉丝数量 |
 
 
 
@@ -392,3 +395,152 @@
 | ---- | ------ | -------- | ------ | -------- |
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
+
+
+
+## 关注
+
+### 关注指定用户
+
+#### 基本信息
+
+**Path：** index/Follow/onFollowUser
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/onFollowUser
+
+#### 返回HTTP状态码
+
+1. 201 关注成功
+2. 401 不能重复关注
+
+#### 请求参数
+
+**Body**
+
+| 名称        | 类型   | 是否必须 | 默认值 | 备注          |
+| ----------- | ------ | -------- | ------ | ------------- |
+| follower_id | string | 必须     |        | 被关注用户 id |
+| user_id     | string | 必须     |        | 用户 id       |
+
+#### 返回数据
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注     |
+| ---- | ------ | -------- | ------ | -------- |
+| code | number | 必须     |        | 状态码   |
+| msg  | string | 必须     |        | 提示信息 |
+
+
+
+### 取消关注指定用户
+
+#### 基本信息
+
+**Path：** index/Follow/deleteFollowUser
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/deleteFollowUser
+
+#### 返回HTTP状态码
+
+1. 201 取消关注成功
+2. 401 取消关注失败
+
+#### 请求参数
+
+**Body**
+
+| 名称        | 类型   | 是否必须 | 默认值 | 备注          |
+| ----------- | ------ | -------- | ------ | ------------- |
+| follower_id | string | 必须     |        | 被关注用户 id |
+| user_id     | string | 必须     |        | 用户 id       |
+
+#### 返回数据
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注     |
+| ---- | ------ | -------- | ------ | -------- |
+| code | number | 必须     |        | 状态码   |
+| msg  | string | 必须     |        | 提示信息 |
+
+
+
+### 获取我的关注列表
+
+#### 基本信息
+
+**Path：** index/Follow/getFollowUserList
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/getFollowUserList
+
+#### 返回HTTP状态码
+
+1. 201 OK
+
+#### 请求参数
+
+**Body**
+
+| 名称    | 类型   | 是否必须 | 默认值 | 备注    |
+| ------- | ------ | -------- | ------ | ------- |
+| user_id | string | 必须     |        | 用户 id |
+
+#### 返回数据
+
+| 名称                 | 类型   | 是否必须 | 默认值 | 备注            |
+| -------------------- | ------ | -------- | ------ | --------------- |
+| code                 | number | 必须     |        | 状态码          |
+| msg                  | string | 必须     |        | 提示信息        |
+| data                 | array  | 必须     |        | 数据            |
+| ├─ id                | number | 必须     |        | 序号            |
+| ├─ user_id           | number | 必须     |        | 用户  id        |
+| ├─ follower_id       | number | 必须     |        | 被关注用户的 id |
+| ├─ created_at        | string | 必须     |        | 关注时间        |
+| ├─ user_nickname     | string | 必须     |        | 用户昵称        |
+| ├─ user_avatar       | string | 必须     |        | 用户头像        |
+| ├─ follower_nickname | string | 必须     |        | 被关注用户昵称  |
+| ├─ follower_avatar   | string | 必须     |        | 被关注用户头像  |
+
+
+
+### 获取我的粉丝列表
+
+#### 基本信息
+
+**Path：** index/Follow/getFansUserList
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/getFansUserList
+
+#### 返回HTTP状态码
+
+1. 201 OK
+
+#### 请求参数
+
+**Body**
+
+| 名称    | 类型   | 是否必须 | 默认值 | 备注    |
+| ------- | ------ | -------- | ------ | ------- |
+| user_id | string | 必须     |        | 用户 id |
+
+#### 返回数据
+
+| 名称                 | 类型   | 是否必须 | 默认值 | 备注            |
+| -------------------- | ------ | -------- | ------ | --------------- |
+| code                 | number | 必须     |        | 状态码          |
+| msg                  | string | 必须     |        | 提示信息        |
+| data                 | array  | 必须     |        | 数据            |
+| ├─ id                | number | 必须     |        | 序号            |
+| ├─ user_id           | number | 必须     |        | 用户  id        |
+| ├─ follower_id       | number | 必须     |        | 被关注用户的 id |
+| ├─ created_at        | string | 必须     |        | 关注时间        |
+| ├─ user_nickname     | string | 必须     |        | 用户昵称        |
+| ├─ user_avatar       | string | 必须     |        | 用户头像        |
+| ├─ follower_nickname | string | 必须     |        | 被关注用户昵称  |
+| ├─ follower_avatar   | string | 必须     |        | 被关注用户头像  |
+
