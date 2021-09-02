@@ -52,6 +52,42 @@
       <div class="Info_nickname">
         <h5 class="nickname">{{ userForm.nickname }}</h5>
         <p class="autograph">{{ userForm.autograph }}</p>
+
+        <hr />
+
+        <p class="info" v-if="userForm.birthday">
+          生日：
+          <van-tag type="primary">{{ userForm.birthday }}</van-tag>
+        </p>
+        <p class="info" v-if="userForm.feeling">
+          感情状况：
+          <van-tag type="success">{{ userForm.feeling }}</van-tag>
+        </p>
+        <p class="info" v-if="userForm.work">
+          工作：
+          <van-tag type="danger">{{ userForm.work }}</van-tag>
+        </p>
+        <p class="info" v-if="userForm.mail">
+          邮箱：
+          <van-tag type="warning">{{ userForm.mail }}</van-tag>
+        </p>
+        <p class="info">
+          注册时间：
+          <van-tag type="primary">{{ registerTime() }}</van-tag>
+        </p>
+
+        <!-- 关注按钮 -->
+        <van-button
+          v-if="followBtnShow"
+          id="followBtn"
+          icon="plus"
+          :type="onFollowChange ? 'danger' : 'default'"
+          size="small"
+          :disabled="followBtnDisabled"
+          @click="onFollowChange ? deleteFollowTa() : changeFollowTa()"
+        >
+          {{ onFollowChange ? "取消关注 TA" : "关注 TA" }}
+        </van-button>
       </div>
     </div>
 
@@ -129,13 +165,16 @@
 <script>
 // 获取我的博客列表 - 获取关注列表
 import { getUserBlogList } from '@/api/blog'
-import { getFollowUserList, getFansUserList } from '@/api/follow'
+// import { getFollowUserList, getFansUserList } from '@/api/follow'
 import BlogList from '@/components/BlogList'
 import NoMore from '@/components/NoMore'
 import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
 import url from '@/utils/url'
 import UserList from '@/components/UserList'
+import { toDates } from '@/utils/changeTime'
+// 关注用户 - 获取我的关注列表 - 获取我的粉丝列表 - 取消关注用户
+import { onFollowUser, getFollowUserList, getFansUserList, deleteFollowUser } from '@/api/follow'
 export default {
   name: 'myIndex',
   components: {
@@ -146,6 +185,8 @@ export default {
   props: {},
   data () {
     return {
+      followBtnDisabled: false, // 关注取关按钮禁用状态
+      onFollowChange: false, // 是否关注
       myFansList: [], // 我的粉丝列表
       myFollowUser: [], // 我的关注列表
       followPopupShow: false, // 关注展示的弹出层
@@ -157,11 +198,16 @@ export default {
   },
   computed: {
     ...mapState(['userInfo']),
+    // 头像地址
     userPhotoAvatar () {
       if (this.userForm.avatar) {
         return `${url}/userPhoto/${this.userForm.avatar}`
       }
       return ''
+    },
+    // 关注按钮的展示状态
+    followBtnShow () {
+      return this.userInfo.id.toString() !== this.$route.params.id.toString()
     }
   },
   watch: {
@@ -209,6 +255,13 @@ export default {
     async loadgetFollowUserList () {
       const { data } = await getFollowUserList(this.$qs.stringify({ user_id: this.userInfo.id }))
       this.myFollowUser = data.data
+
+      // 判断如果关注列表中的已关注的用户 id === 路由参数中的 id 那么就是已经关注的用户
+      data.data.forEach(item => {
+        if (item.follower_id.toString() === this.$route.params.id.toString()) {
+          this.onFollowChange = true
+        }
+      })
     },
     // 获取我的粉丝列表
     async loadgetFansUserList () {
@@ -230,6 +283,53 @@ export default {
         return
       }
       this.$notify({ type: 'danger', message: '不能查看他人关注列表', duration: 1300 })
+    },
+    // 将时间戳转换为正常的时间对象格式
+    registerTime () {
+      return toDates(this.userForm.regis_time)
+    },
+    // 关注
+    async changeFollowTa () {
+      this.followBtnDisabled = true
+      const { data } = await onFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.$route.params.id
+        }
+      ))
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.followBtnDisabled = false
+        return
+      }
+      // 操作成功
+      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.loadgetUserInfo()
+      this.onFollowChange = true
+      this.followBtnDisabled = false
+    },
+    // 取消关注
+    async deleteFollowTa () {
+      this.followBtnDisabled = true
+      const { data } = await deleteFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.$route.params.id
+        }
+      ))
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$notify({ type: 'danger', message: data.msg, duration: 1300 })
+        this.followBtnDisabled = false
+        return
+      }
+      // 操作成功
+      this.$notify({ type: 'success', message: data.msg, duration: 1300 })
+      this.loadgetUserInfo()
+      this.loadgetFollowUserList() // 获取我的关注列表
+      this.onFollowChange = false
+      this.followBtnDisabled = false
     }
   }
 }
@@ -300,6 +400,22 @@ export default {
         font-size: 12px;
         color: #333;
         margin-top: 4px;
+      }
+      #followBtn {
+        width: 220px;
+      }
+      hr {
+        margin: 5px 0 5px 0;
+        height: 1px;
+        background: #eee;
+        border: none;
+      }
+      .info {
+        font-size: 13px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        line-height: 22px;
       }
     }
   }

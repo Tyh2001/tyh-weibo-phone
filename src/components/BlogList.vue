@@ -10,7 +10,7 @@
         />
         <div class="info">
           <h4 class="nickname">{{ blogItem.nickname }}</h4>
-          <p class="time">{{ blogItem.release_time }}</p>
+          <p class="time">{{ releaseTime(blogItem.release_time) }}</p>
         </div>
       </div>
 
@@ -21,6 +21,7 @@
         @click="changePopup = true"
       />
     </div>
+
     <div class="blog">
       <p class="blogText">{{ blogItem.text }}</p>
 
@@ -96,6 +97,7 @@ import { mapState } from 'vuex'
 import url from '@/utils/url'
 // 关注用户 - 取消关注用户
 import { onFollowUser, deleteFollowUser } from '@/api/follow'
+import { toDates } from '@/utils/changeTime'
 export default {
   name: 'BlogList',
   components: {},
@@ -199,6 +201,10 @@ export default {
     // 点击图片跳转对应的用户的页面
     pushItemMy () {
       this.$router.push(`/my/${this.blogItem.user_id}`)
+    },
+    // 格式化时间
+    releaseTime (time) {
+      return toDates(time)
     }
   }
 }
