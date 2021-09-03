@@ -175,7 +175,7 @@
         :show-toolbar="upPopupUserGender"
         :columns="genderList"
         @confirm="onConfirmGender"
-        @cancel="onCancelGender"
+        @cancel="closePopup('upPopupUserGender')"
       />
     </van-popup>
 
@@ -186,7 +186,7 @@
         :show-toolbar="upPopupUserFeeling"
         :columns="feelingList"
         @confirm="onConfirmFeeling"
-        @cancel="onCancelFeeling"
+        @cancel="closePopup('upPopupUserFeeling')"
       />
     </van-popup>
 
@@ -197,7 +197,7 @@
         :show-toolbar="upPopupUserWork"
         :columns="workList"
         @confirm="onConfirmWork"
-        @cancel="onCancelWork"
+        @cancel="closePopup('upPopupUserWork')"
       />
     </van-popup>
 
@@ -210,7 +210,7 @@
         :min-date="minDate"
         :max-date="maxDate"
         @confirm="confirmBirthday"
-        @cancel="cancelBirthday"
+        @cancel="closePopup('upPopupUserBirthday')"
       />
     </van-popup>
 
@@ -235,20 +235,6 @@
         placeholder="请输入邮箱"
       />
     </van-popup>
-
-    <!-- 更改城市的弹出框 -->
-    <!-- <van-popup
-      position="bottom"
-      :columns-placeholder="['请选择', '请选择', '请选择']"
-      v-model="upPopupUserCity"
-    >
-      <van-area
-        title="城市"
-        :area-list="areaList"
-        @confirm="confirmCity"
-        @cancel="cancelCity"
-      />
-    </van-popup> -->
   </div>
 </template>
 
@@ -297,6 +283,7 @@ export default {
   },
   computed: {
     ...mapState(['userInfo']),
+    // 用户头像地址
     userPhotoAvatar () {
       if (this.userForm.avatar) {
         return `${url}/userPhoto/${this.userForm.avatar}`
@@ -342,6 +329,7 @@ export default {
     },
     // 确认上传头像
     ToUploadPhoto () {
+      this.$toast.loading({ message: '上传中...', forbidClick: true, duration: 0 })
       // blob 为裁切的结果图片
       this.cropper.getCroppedCanvas().toBlob((blob) => {
         const formData = new FormData()
@@ -350,9 +338,9 @@ export default {
         formData.append('photo', blob, '.jpg')
 
         uploadUserPhoto(formData, this.userInfo.id).then(res => {
-          this.userForm.avatar = url + '/' + res.data.data.url // 更新头像
-          console.log(res)
+          this.userForm.avatar = res.data.data.url // 更新头像
           this.upPopupUserPhoto = false // 关于对话框
+          this.$toast.clear()
           this.$toast('上传头像成功')
         })
       })
@@ -375,12 +363,14 @@ export default {
       // 替换数据提交表单内容
       this.userForm.nickname = nickName
 
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserNickname = false
     },
@@ -388,12 +378,14 @@ export default {
     async upDataAutograph () {
       this.userForm.autograph = this.originalUserInfo.autograph
 
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
         this.notifyShow('danger', data.msg)
+        this.$toast.clear()
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserAutograph = false
     },
@@ -408,99 +400,72 @@ export default {
         return
       }
       this.userForm.mail = mail
-
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserMail = false
     },
-    /**
-     * 更改性别
-     */
-    // 当点击确定的时候
+    // 更改性别
     async onConfirmGender (value) {
       this.userForm.gender = value
-
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserGender = false
     },
-    // 点击取消的时候
-    onCancelGender () {
-      this.upPopupUserGender = false
-      this.notifyShow('danger', '已取消')
-    },
-    /**
-     * 更改感情状况
-     */
-    // 当点击确定的时候
+    // 更改感情状况
     async onConfirmFeeling (value) {
       this.userForm.feeling = value
-
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserFeeling = false
     },
-    // 点击取消的时候
-    onCancelFeeling () {
-      this.upPopupUserFeeling = false
-      this.notifyShow('danger', '已取消')
-    },
-    /**
-     * 更改工作
-     */
-    // 当点击确定的时候
+    // 更改工作
     async onConfirmWork (value) {
       this.userForm.work = value
-
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserWork = false
     },
-    // 点击取消的时候
-    onCancelWork () {
-      this.upPopupUserWork = false
-      this.notifyShow('danger', '已取消')
-    },
-    /**
-     * 选择生日
-     */
-    // 当点击确定的时候
+    // 选择生日
     async confirmBirthday (value) {
       this.userForm.birthday = this.getNowFormatDate(value)
-
+      this.$toast.loading({ message: '更新中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
-
+      this.$toast.clear()
       this.notifyShow('success', data.msg)
       this.upPopupUserBirthday = false
-    },
-    // 点击取消的时候
-    cancelBirthday () {
-      this.upPopupUserBirthday = false
-      this.notifyShow('danger', '已取消')
     },
     // 计算时间
     getNowFormatDate (time) {
@@ -518,17 +483,9 @@ export default {
       var currentdate = year + seperator1 + month + seperator1 + strDate
       return currentdate
     },
-    /**
-     * 选择城市
-     */
-    // 当点击确定的时候
-    confirmCity (value) {
-      console.log(value)
-      this.notifyShow('danger', '城市选择维护中，稍后再试')
-    },
-    // 当点击取消的时候
-    cancelCity () {
-      this.upPopupUserCity = false
+    // 点击取消后的函数
+    closePopup (element) {
+      this[element] = false
       this.notifyShow('danger', '已取消')
     }
   }

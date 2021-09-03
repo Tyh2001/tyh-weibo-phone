@@ -87,12 +87,14 @@ export default {
         return
       }
 
+      this.$toast.loading({ message: '登录中...', forbidClick: true, duration: 0 })
       this.buttonDisabled = true // 禁用按钮
 
       const { data } = await onUserLogin(this.$qs.stringify(values))
 
       // 登录成功的操作
       if (data.code === 201) {
+        this.$toast.clear()
         this.notifyShow('success', data.msg)
         this.$store.commit('changeUser', data.data)
         this.buttonDisabled = false
@@ -101,6 +103,7 @@ export default {
       }
       this.buttonDisabled = false
       this.notifyShow('danger', data.msg)
+      this.$toast.clear()
     },
     // 提交表单且验证不通过后触发
     onFailed (errorInfo) {

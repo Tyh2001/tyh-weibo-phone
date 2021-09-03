@@ -161,6 +161,7 @@ export default {
       }
       this.registerDisabled = true
       values.captchaCode = this.captchaCode // 传递随机数
+      this.$toast.loading({ message: '注册中...', forbidClick: true, duration: 0 })
       const { data } = await onRegister(this.$qs.stringify(values))
 
       // 根据后端返回数据判断用户登录
@@ -171,9 +172,10 @@ export default {
           this.captchaCode = randomNum(15, 1)
         }
         this.registerDisabled = false
+        this.$toast.clear()
         return
       }
-
+      this.$toast.clear()
       this.registerDisabled = false
       this.notifyShow('success', '注册成功')
       this.$router.push('/user/login')

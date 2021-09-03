@@ -98,6 +98,7 @@ export default {
       }
 
       // 校验全部合格 发送请求
+      this.$toast.loading({ message: '处理中...', forbidClick: true, duration: 0 })
       const { data } = await changeUserPass(this.$qs.stringify(
         {
           oldPass: this.changePass.oldPass,
@@ -107,6 +108,7 @@ export default {
 
       // 更新失败
       if (data.code !== 201) {
+        this.$toast.clear()
         this.notifyShow('danger', data.msg)
         return
       }
@@ -114,6 +116,7 @@ export default {
       // 更新成功
       this.notifyShow('success', data.msg + '，请退出重新登录')
       this.$store.commit('outLogin')
+      this.$toast.clear()
       this.$router.push('/')
     },
     // 当表单验证不通过时候触发

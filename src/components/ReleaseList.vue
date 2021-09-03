@@ -150,6 +150,7 @@ export default {
       // 新建一个 FormData
       const formData = new FormData()
 
+      this.$toast.loading({ message: '发布中...', forbidClick: true, duration: 0 })
       // 循环每一个选择的文件 将其添加 append
       this.upLoadImagesFileArray.forEach(item => {
         // 给每一项命名为 blogImages 后面的 [] 必须加
@@ -169,6 +170,7 @@ export default {
         this.upLoadImagesFileArray = []
         this.blogText = ''
         this.$emit('closePropop') // 关闭弹出层
+        this.$toast.clear()
 
         // 发布成功后跳转首页
         if (this.SuccessGOhome) {
@@ -176,6 +178,7 @@ export default {
         }
       }
       this.publishDisabledBtn = false
+      this.$toast.clear()
     },
     // 传值 关闭发布弹出层
     closePropop () {
