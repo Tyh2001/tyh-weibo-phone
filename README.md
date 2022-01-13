@@ -1,11 +1,20 @@
-## 微博全栈开发
-## 用户
+# 微博全栈开发
 
-### 接口地址
+## 仓库地址
+
+我自主开发的模拟微博项目全栈开发
+
+[前端 pc 端仓库](https://github.com/Tyh2001/tyh-weibo-pc)
+
+[前端 phone 端仓库](https://github.com/Tyh2001/tyh-weibo-phone)
+
+[后端仓库](https://github.com/Tyh2001/tyh-weibo-backEnd-php)
+
+## 接口地址
 
 基础地址：http://localhost/Virgo_Tyh_PHP/public/index.php/
 
-
+## 用户
 
 ### 注册账号
 
@@ -15,9 +24,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Register
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Register
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 注册成功
 2. 401 用户名已存在
@@ -42,8 +51,6 @@
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
 
-
-
 ### 登录
 
 #### 基本信息
@@ -52,9 +59,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Login
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Login
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 登录成功
 2. 401 用户信息不完善
@@ -76,11 +83,9 @@
 | code        | number | 必须     |        | 状态码   |
 | msg         | string | 必须     |        | 提示信息 |
 | data        | object | 非必须   |        | 返回数据 |
-| ├─ id       | number | 必须     |        | 用户id   |
+| ├─ id       | number | 必须     |        | 用户 id  |
 | ├─ nickname | string | 必须     |        | 用户昵称 |
 | ├─ photo    | string | 必须     |        | 用户头像 |
-
-
 
 ### 获取用户资料
 
@@ -90,9 +95,9 @@
 
 **Method：** GET
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/getUserInfo
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/getUserInfo
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 OK
 2. 401 缺少参数
@@ -112,7 +117,7 @@
 | code           | number | 必须     |        | 状态码   |
 | msg            | string | 必须     |        | 提示信息 |
 | data           | object | 非必须   |        | 返回数据 |
-| ├─ avatar      | number | 必须     |        | 用户id   |
+| ├─ avatar      | number | 必须     |        | 用户 id  |
 | ├─ nickname    | string | 必须     |        | 用户昵称 |
 | ├─ autograph   | string | 必须     |        | 个性签名 |
 | ├─ gender      | string | 必须     |        | 性别     |
@@ -125,8 +130,6 @@
 | ├─ follow_list | string | 必须     |        | 关注数量 |
 | ├─ fans_list   | string | 必须     |        | 粉丝数量 |
 
-
-
 ### 更新用户资料
 
 #### 基本信息
@@ -135,9 +138,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/changeUserInfo
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/changeUserInfo
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 更新用户信息成功
 2. 401 信息不完善
@@ -162,16 +165,12 @@
 | ---- | ------ | -------- | ------ | ------- |
 | id   | string | 必须     |        | 用户 id |
 
-
-
 #### 返回数据
 
 | 名称 | 类型   | 是否必须 | 默认值 | 备注     |
 | ---- | ------ | -------- | ------ | -------- |
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
-
-
 
 ### 更新用户密码
 
@@ -181,9 +180,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/changeUserPass
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/changeUserPass
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 更新密码成功
 2. 401 原始密码错误
@@ -211,8 +210,6 @@
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
 
-
-
 ### 更新用户头像
 
 #### 基本信息
@@ -221,9 +218,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/uploadPhoto
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/uploadPhoto
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 更新头像成功
 2. 401 更新失败
@@ -251,8 +248,6 @@
 | data   | object | 非必须   |        | 返回数据       |
 | ├─ url | string | 必须     |        | 更新后头像地址 |
 
-
-
 ## 博客
 
 ### 发布博客
@@ -263,9 +258,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/releaseBlog
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/releaseBlog
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 发布成功
 
@@ -291,8 +286,6 @@
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
 
-
-
 ### 获取全部博客
 
 #### 基本信息
@@ -301,15 +294,13 @@
 
 **Method：** GET
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/getAllBlogList
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/getAllBlogList
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 OK
 
 #### 请求参数
-
-
 
 #### 返回数据
 
@@ -326,8 +317,6 @@
 | ├─ text         | string | 必须     |        | 博客文字 |
 | ├─ image        | array  | 必须     |        | 博客图片 |
 
-
-
 ### 获取指定用户的博客
 
 #### 基本信息
@@ -336,9 +325,9 @@
 
 **Method：** GET
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/getUserBlogList
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/getUserBlogList
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 OK
 
@@ -365,8 +354,6 @@
 | ├─ text         | string | 必须     |        | 博客文字 |
 | ├─ image        | array  | 必须     |        | 博客图片 |
 
-
-
 ### 删除自己的指定博客内容
 
 #### 基本信息
@@ -375,9 +362,9 @@
 
 **Method：** GET
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/deleteMyBlog
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/deleteMyBlog
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 删除成功
 
@@ -396,8 +383,6 @@
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
 
-
-
 ## 关注
 
 ### 关注指定用户
@@ -408,9 +393,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/onFollowUser
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/onFollowUser
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 关注成功
 2. 401 不能重复关注
@@ -431,8 +416,6 @@
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
 
-
-
 ### 取消关注指定用户
 
 #### 基本信息
@@ -441,9 +424,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/deleteFollowUser
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/deleteFollowUser
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 取消关注成功
 2. 401 取消关注失败
@@ -464,8 +447,6 @@
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
 
-
-
 ### 获取我的关注列表
 
 #### 基本信息
@@ -474,9 +455,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/getFollowUserList
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/getFollowUserList
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 OK
 
@@ -496,15 +477,13 @@
 | msg                  | string | 必须     |        | 提示信息        |
 | data                 | array  | 必须     |        | 数据            |
 | ├─ id                | number | 必须     |        | 序号            |
-| ├─ user_id           | number | 必须     |        | 用户  id        |
+| ├─ user_id           | number | 必须     |        | 用户 id         |
 | ├─ follower_id       | number | 必须     |        | 被关注用户的 id |
 | ├─ created_at        | string | 必须     |        | 关注时间        |
 | ├─ user_nickname     | string | 必须     |        | 用户昵称        |
 | ├─ user_avatar       | string | 必须     |        | 用户头像        |
 | ├─ follower_nickname | string | 必须     |        | 被关注用户昵称  |
 | ├─ follower_avatar   | string | 必须     |        | 被关注用户头像  |
-
-
 
 ### 获取我的粉丝列表
 
@@ -514,9 +493,9 @@
 
 **Method：** POST
 
-**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/getFansUserList
+**完整地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Follow/getFansUserList
 
-#### 返回HTTP状态码
+#### 返回 HTTP 状态码
 
 1. 201 OK
 
@@ -536,11 +515,10 @@
 | msg                  | string | 必须     |        | 提示信息        |
 | data                 | array  | 必须     |        | 数据            |
 | ├─ id                | number | 必须     |        | 序号            |
-| ├─ user_id           | number | 必须     |        | 用户  id        |
+| ├─ user_id           | number | 必须     |        | 用户 id         |
 | ├─ follower_id       | number | 必须     |        | 被关注用户的 id |
 | ├─ created_at        | string | 必须     |        | 关注时间        |
 | ├─ user_nickname     | string | 必须     |        | 用户昵称        |
 | ├─ user_avatar       | string | 必须     |        | 用户头像        |
 | ├─ follower_nickname | string | 必须     |        | 被关注用户昵称  |
 | ├─ follower_avatar   | string | 必须     |        | 被关注用户头像  |
-
